@@ -28,7 +28,7 @@ class InstROM extends Module {
 
 object InstROMInst extends App {
 //  chisel3.emitVerilog(new InstROM)
-  (new chisel3.stage.ChiselStage).execute(Array("--target-dir", "generated\\ROM\\InstROM"), Seq(ChiselGeneratorAnnotation(() => new InstROM)))
+  (new chisel3.stage.ChiselStage).execute(Array("--target-dir", "generated\\IF\\InstROM"), Seq(ChiselGeneratorAnnotation(() => new InstROM)))
   
 }
 

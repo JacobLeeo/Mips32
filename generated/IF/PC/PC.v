@@ -1,27 +1,27 @@
 module PC(
   input        clock,
   input        reset,
-  output       io_instRonEn,
+  output       io_instRomEn,
   output [7:0] io_instRomAddr
 );
 `ifdef RANDOMIZE_REG_INIT
   reg [31:0] _RAND_0;
   reg [31:0] _RAND_1;
 `endif // RANDOMIZE_REG_INIT
-  reg  instRonEn; // @[PC.scala 14:26]
-  reg [7:0] instRomAddr; // @[PC.scala 15:28]
-  wire [7:0] _instRomAddr_T_1 = instRomAddr + 8'h4; // @[PC.scala 19:45]
-  assign io_instRonEn = instRonEn; // @[PC.scala 21:16]
-  assign io_instRomAddr = instRomAddr; // @[PC.scala 22:18]
+  reg  instRomEn; // @[PC.scala 14:28]
+  reg [7:0] instRomAddr; // @[PC.scala 15:30]
+  wire [7:0] _instRomAddr_T_1 = instRomAddr + 8'h4; // @[PC.scala 19:47]
+  assign io_instRomEn = instRomEn; // @[PC.scala 26:18]
+  assign io_instRomAddr = instRomAddr; // @[PC.scala 27:20]
   always @(posedge clock) begin
-    if (reset) begin // @[PC.scala 14:26]
-      instRonEn <= 1'h0; // @[PC.scala 14:26]
+    if (reset) begin // @[PC.scala 14:28]
+      instRomEn <= 1'h0; // @[PC.scala 14:28]
     end else begin
-      instRonEn <= 1'h1; // @[PC.scala 17:13]
+      instRomEn <= 1'h1; // @[PC.scala 17:15]
     end
-    if (reset) begin // @[PC.scala 15:28]
-      instRomAddr <= 8'h0; // @[PC.scala 15:28]
-    end else if (instRonEn) begin // @[PC.scala 19:21]
+    if (reset) begin // @[PC.scala 15:30]
+      instRomAddr <= 8'h0; // @[PC.scala 15:30]
+    end else if (instRomEn) begin // @[PC.scala 19:23]
       instRomAddr <= _instRomAddr_T_1;
     end else begin
       instRomAddr <= 8'h0;
@@ -64,7 +64,7 @@ initial begin
     `endif
 `ifdef RANDOMIZE_REG_INIT
   _RAND_0 = {1{`RANDOM}};
-  instRonEn = _RAND_0[0:0];
+  instRomEn = _RAND_0[0:0];
   _RAND_1 = {1{`RANDOM}};
   instRomAddr = _RAND_1[7:0];
 `endif // RANDOMIZE_REG_INIT

@@ -28,7 +28,7 @@ class PC extends Module {
 }
 
 object PCInst extends App {
-    (new chisel3.stage.ChiselStage).execute(Array("--target-dir", "generated\\PC"), Seq(ChiselGeneratorAnnotation(() => new PC)))
+    (new chisel3.stage.ChiselStage).execute(Array("--target-dir", "generated\\IF\\PC"), Seq(ChiselGeneratorAnnotation(() => new PC)))
 }
 
 class PCTest extends AnyFlatSpec with ChiselScalatestTester {
