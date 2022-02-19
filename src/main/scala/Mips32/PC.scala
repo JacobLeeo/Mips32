@@ -17,6 +17,11 @@ class PC extends Module {
   instRonEn := true.B
   
   instRomAddr := Mux(instRonEn, instRomAddr + 4.U, 0.U)
+//  when(instRonEn === true.B) {
+//    instRomAddr := instRomAddr + 4.U
+//  }.otherwise {
+//    instRomAddr := 0.U
+//  }
   
   io.instRonEn := instRonEn
   io.instRomAddr := instRomAddr
