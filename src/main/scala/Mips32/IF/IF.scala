@@ -34,14 +34,4 @@ object IFInst extends App {
     (new chisel3.stage.ChiselStage).execute(Array("--target-dir", "generated\\IF"), Seq(ChiselGeneratorAnnotation(() => new IF)))
 }
 
-class IFTest extends AnyFlatSpec with ChiselScalatestTester {
-    behavior of "IF"
-    it should "output the ID's InstROMData and InstROMAddr" in {
-        test(new IF).withAnnotations(Seq(WriteVcdAnnotation)) { dut =>
-            val testThr = fork {
-                dut.clock.step(20)
-            }
-            testThr.join()
-        }
-    }
-}
+
