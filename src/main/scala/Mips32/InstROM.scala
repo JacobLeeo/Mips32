@@ -1,6 +1,7 @@
 package Mips32
 
 import chisel3._
+import chisel3.stage.ChiselGeneratorAnnotation
 
 class InstROM extends Module {
   val io = IO(new Bundle() {
@@ -21,5 +22,8 @@ class InstROM extends Module {
 }
 
 object InstROMInst extends App {
-  chisel3.emitVerilog(new InstROM)
+//  chisel3.emitVerilog(new InstROM)
+  (new chisel3.stage.ChiselStage).execute(Array("--target-dir", "generated\\ROM\\InstROM"), Seq(ChiselGeneratorAnnotation(() => new InstROM)))
+  
 }
+
