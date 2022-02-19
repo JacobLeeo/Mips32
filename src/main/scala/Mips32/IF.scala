@@ -7,11 +7,11 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 class IF extends Module {
     val io = IO(new Bundle() {
-        val instAddr = Output(UInt(8.W))
-        val inst = Output(UInt(32.W))
+        val instRomAddr = Output(UInt(8.W))
+        val instRomData = Output(UInt(32.W))
     })
     
-    val instAddr = RegInit(0.U(8.W))
+    val instAddr = RegInit(0.U(8.W)) // 阻塞总线的IF阶段和ID阶段
     
     val pc = Module(new PC())
     val instROM = Module(new InstROM())
@@ -20,14 +20,13 @@ class IF extends Module {
     instROM.io.wAddr := DontCare
     instROM.io.wData := DontCare
     
-//    instAddr :=
     instROM.io.rAddr := (pc.io.instRomAddr >> 2)
     instROM.io.ena := pc.io.instRomEn
     
-    io.inst := instROM.io.rData
+    io.instRomData := instROM.io.rData
     
     instAddr := (pc.io.instRomAddr >> 2)
-    io.instAddr := instAddr
+    io.instRomAddr := instAddr
 }
 
 object IFInst extends App {
