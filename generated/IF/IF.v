@@ -174,31 +174,31 @@ module IF(
   output [7:0]  io_instAddr,
   output [31:0] io_inst
 );
-  wire  pc_clock; // @[IF.scala 14:20]
-  wire  pc_reset; // @[IF.scala 14:20]
-  wire  pc_io_instRomEn; // @[IF.scala 14:20]
-  wire [7:0] pc_io_instRomAddr; // @[IF.scala 14:20]
-  wire  instROM_clock; // @[IF.scala 15:25]
-  wire  instROM_io_ena; // @[IF.scala 15:25]
-  wire [7:0] instROM_io_rAddr; // @[IF.scala 15:25]
-  wire [31:0] instROM_io_rData; // @[IF.scala 15:25]
-  PC pc ( // @[IF.scala 14:20]
+  wire  pc_clock; // @[IF.scala 16:20]
+  wire  pc_reset; // @[IF.scala 16:20]
+  wire  pc_io_instRomEn; // @[IF.scala 16:20]
+  wire [7:0] pc_io_instRomAddr; // @[IF.scala 16:20]
+  wire  instROM_clock; // @[IF.scala 17:25]
+  wire  instROM_io_ena; // @[IF.scala 17:25]
+  wire [7:0] instROM_io_rAddr; // @[IF.scala 17:25]
+  wire [31:0] instROM_io_rData; // @[IF.scala 17:25]
+  PC pc ( // @[IF.scala 16:20]
     .clock(pc_clock),
     .reset(pc_reset),
     .io_instRomEn(pc_io_instRomEn),
     .io_instRomAddr(pc_io_instRomAddr)
   );
-  InstROM instROM ( // @[IF.scala 15:25]
+  InstROM instROM ( // @[IF.scala 17:25]
     .clock(instROM_clock),
     .io_ena(instROM_io_ena),
     .io_rAddr(instROM_io_rAddr),
     .io_rData(instROM_io_rData)
   );
-  assign io_instAddr = instROM_io_rAddr; // @[IF.scala 25:17]
-  assign io_inst = instROM_io_rData; // @[IF.scala 24:13]
+  assign io_instAddr = instROM_io_rAddr; // @[IF.scala 28:17]
+  assign io_inst = instROM_io_rData; // @[IF.scala 27:13]
   assign pc_clock = clock;
   assign pc_reset = reset;
   assign instROM_clock = clock;
-  assign instROM_io_ena = pc_io_instRomEn; // @[IF.scala 18:20]
-  assign instROM_io_rAddr = {{2'd0}, pc_io_instRomAddr[7:2]}; // @[IF.scala 17:22]
+  assign instROM_io_ena = pc_io_instRomEn; // @[IF.scala 25:20]
+  assign instROM_io_rAddr = {{2'd0}, pc_io_instRomAddr[7:2]}; // @[IF.scala 24:22]
 endmodule

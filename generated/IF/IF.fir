@@ -40,18 +40,20 @@ circuit IF :
     input reset : UInt<1>
     output io : { instAddr : UInt<8>, inst : UInt<32>}
 
-    inst pc of PC @[IF.scala 14:20]
+    reg instAddr : UInt<8>, clock with :
+      reset => (reset, UInt<8>("h0")) @[IF.scala 14:27]
+    inst pc of PC @[IF.scala 16:20]
     pc.clock <= clock
     pc.reset <= reset
-    inst instROM of InstROM @[IF.scala 15:25]
+    inst instROM of InstROM @[IF.scala 17:25]
     instROM.clock <= clock
     instROM.reset <= reset
-    node _instROM_io_rAddr_T = shr(pc.io.instRomAddr, 2) @[IF.scala 17:44]
-    instROM.io.rAddr <= _instROM_io_rAddr_T @[IF.scala 17:22]
-    instROM.io.ena <= pc.io.instRomEn @[IF.scala 18:20]
-    instROM.io.wEn is invalid @[IF.scala 20:20]
-    instROM.io.wAddr is invalid @[IF.scala 21:22]
-    instROM.io.wData is invalid @[IF.scala 22:22]
-    io.inst <= instROM.io.rData @[IF.scala 24:13]
-    io.instAddr <= instROM.io.rAddr @[IF.scala 25:17]
+    instROM.io.wEn is invalid @[IF.scala 19:20]
+    instROM.io.wAddr is invalid @[IF.scala 20:22]
+    instROM.io.wData is invalid @[IF.scala 21:22]
+    node _instROM_io_rAddr_T = shr(pc.io.instRomAddr, 2) @[IF.scala 24:44]
+    instROM.io.rAddr <= _instROM_io_rAddr_T @[IF.scala 24:22]
+    instROM.io.ena <= pc.io.instRomEn @[IF.scala 25:20]
+    io.inst <= instROM.io.rData @[IF.scala 27:13]
+    io.instAddr <= instROM.io.rAddr @[IF.scala 28:17]
 

@@ -11,18 +11,23 @@ class IF extends Module {
         val inst = Output(UInt(32.W))
     })
     
+    val instAddr = RegInit(0.U(8.W))
+    
     val pc = Module(new PC())
     val instROM = Module(new InstROM())
-    
-    instROM.io.rAddr := (pc.io.instRomAddr >> 2)
-    instROM.io.ena := pc.io.instRomEn
     
     instROM.io.wEn := DontCare
     instROM.io.wAddr := DontCare
     instROM.io.wData := DontCare
     
+//    instAddr :=
+    instROM.io.rAddr := (pc.io.instRomAddr >> 2)
+    instROM.io.ena := pc.io.instRomEn
+    
     io.inst := instROM.io.rData
-    io.instAddr := instROM.io.rAddr
+    
+    instAddr := (pc.io.instRomAddr >> 2)
+    io.instAddr := instAddr
 }
 
 object IFInst extends App {
