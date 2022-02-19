@@ -6,22 +6,15 @@ module PC(
 );
 `ifdef RANDOMIZE_REG_INIT
   reg [31:0] _RAND_0;
-  reg [31:0] _RAND_1;
 `endif // RANDOMIZE_REG_INIT
-  reg  instRomEn; // @[PC.scala 14:28]
-  reg [7:0] instRomAddr; // @[PC.scala 15:30]
-  wire [7:0] _instRomAddr_T_1 = instRomAddr + 8'h4; // @[PC.scala 19:47]
-  assign io_instRomEn = instRomEn; // @[PC.scala 26:18]
-  assign io_instRomAddr = instRomAddr; // @[PC.scala 27:20]
+  reg [7:0] instRomAddr; // @[PC.scala 14:30]
+  wire [7:0] _instRomAddr_T_1 = instRomAddr + 8'h4; // @[PC.scala 18:50]
+  assign io_instRomEn = 1'h1; // @[PC.scala 16:18]
+  assign io_instRomAddr = instRomAddr; // @[PC.scala 25:20]
   always @(posedge clock) begin
-    if (reset) begin // @[PC.scala 14:28]
-      instRomEn <= 1'h0; // @[PC.scala 14:28]
-    end else begin
-      instRomEn <= 1'h1; // @[PC.scala 17:15]
-    end
-    if (reset) begin // @[PC.scala 15:30]
-      instRomAddr <= 8'h0; // @[PC.scala 15:30]
-    end else if (instRomEn) begin // @[PC.scala 19:23]
+    if (reset) begin // @[PC.scala 14:30]
+      instRomAddr <= 8'h0; // @[PC.scala 14:30]
+    end else if (io_instRomEn) begin // @[PC.scala 18:23]
       instRomAddr <= _instRomAddr_T_1;
     end else begin
       instRomAddr <= 8'h0;
@@ -64,9 +57,7 @@ initial begin
     `endif
 `ifdef RANDOMIZE_REG_INIT
   _RAND_0 = {1{`RANDOM}};
-  instRomEn = _RAND_0[0:0];
-  _RAND_1 = {1{`RANDOM}};
-  instRomAddr = _RAND_1[7:0];
+  instRomAddr = _RAND_0[7:0];
 `endif // RANDOMIZE_REG_INIT
   `endif // RANDOMIZE
 end // initial
@@ -77,7 +68,6 @@ end // initial
 endmodule
 module InstROM(
   input         clock,
-  input         io_ena,
   input  [7:0]  io_rAddr,
   output [31:0] io_rData
 );
@@ -110,8 +100,8 @@ module InstROM(
     if (memBank_MPORT_en & memBank_MPORT_mask) begin
       memBank[memBank_MPORT_addr] <= memBank_MPORT_data; // @[InstROM.scala 19:30]
     end
-    memBank_io_rData_MPORT_en_pipe_0 <= io_ena;
-    if (io_ena) begin
+    memBank_io_rData_MPORT_en_pipe_0 <= 1'h1;
+    if (1'h1) begin
       memBank_io_rData_MPORT_addr_pipe_0 <= io_rAddr;
     end
   end
@@ -171,34 +161,31 @@ endmodule
 module IF(
   input         clock,
   input         reset,
-  output [7:0]  io_instAddr,
-  output [31:0] io_inst
+  output [7:0]  io_instRomAddr,
+  output [31:0] io_instRomData
 );
-  wire  pc_clock; // @[IF.scala 16:20]
-  wire  pc_reset; // @[IF.scala 16:20]
-  wire  pc_io_instRomEn; // @[IF.scala 16:20]
-  wire [7:0] pc_io_instRomAddr; // @[IF.scala 16:20]
-  wire  instROM_clock; // @[IF.scala 17:25]
-  wire  instROM_io_ena; // @[IF.scala 17:25]
-  wire [7:0] instROM_io_rAddr; // @[IF.scala 17:25]
-  wire [31:0] instROM_io_rData; // @[IF.scala 17:25]
-  PC pc ( // @[IF.scala 16:20]
+  wire  pc_clock; // @[IF.scala 17:20]
+  wire  pc_reset; // @[IF.scala 17:20]
+  wire  pc_io_instRomEn; // @[IF.scala 17:20]
+  wire [7:0] pc_io_instRomAddr; // @[IF.scala 17:20]
+  wire  instROM_clock; // @[IF.scala 18:25]
+  wire [7:0] instROM_io_rAddr; // @[IF.scala 18:25]
+  wire [31:0] instROM_io_rData; // @[IF.scala 18:25]
+  PC pc ( // @[IF.scala 17:20]
     .clock(pc_clock),
     .reset(pc_reset),
     .io_instRomEn(pc_io_instRomEn),
     .io_instRomAddr(pc_io_instRomAddr)
   );
-  InstROM instROM ( // @[IF.scala 17:25]
+  InstROM instROM ( // @[IF.scala 18:25]
     .clock(instROM_clock),
-    .io_ena(instROM_io_ena),
     .io_rAddr(instROM_io_rAddr),
     .io_rData(instROM_io_rData)
   );
-  assign io_instAddr = instROM_io_rAddr; // @[IF.scala 28:17]
-  assign io_inst = instROM_io_rData; // @[IF.scala 27:13]
+  assign io_instRomAddr = {{2'd0}, pc_io_instRomAddr[7:2]}; // @[IF.scala 30:20]
+  assign io_instRomData = instROM_io_rData; // @[IF.scala 27:20]
   assign pc_clock = clock;
   assign pc_reset = reset;
   assign instROM_clock = clock;
-  assign instROM_io_ena = pc_io_instRomEn; // @[IF.scala 25:20]
   assign instROM_io_rAddr = {{2'd0}, pc_io_instRomAddr[7:2]}; // @[IF.scala 24:22]
 endmodule

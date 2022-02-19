@@ -1,4 +1,4 @@
-package Mips32
+package Mips32.IF
 
 import chisel3._
 import chisel3.stage.ChiselGeneratorAnnotation

@@ -4,17 +4,14 @@ circuit IF :
     input reset : Reset
     output io : { instRomEn : UInt<1>, instRomAddr : UInt<8>}
 
-    reg instRomEn : UInt<1>, clock with :
-      reset => (reset, UInt<1>("h0")) @[PC.scala 14:28]
     reg instRomAddr : UInt<8>, clock with :
-      reset => (reset, UInt<8>("h0")) @[PC.scala 15:30]
-    instRomEn <= UInt<1>("h1") @[PC.scala 17:15]
-    node _instRomAddr_T = add(instRomAddr, UInt<3>("h4")) @[PC.scala 19:47]
-    node _instRomAddr_T_1 = tail(_instRomAddr_T, 1) @[PC.scala 19:47]
-    node _instRomAddr_T_2 = mux(instRomEn, _instRomAddr_T_1, UInt<1>("h0")) @[PC.scala 19:23]
-    instRomAddr <= _instRomAddr_T_2 @[PC.scala 19:17]
-    io.instRomEn <= instRomEn @[PC.scala 26:18]
-    io.instRomAddr <= instRomAddr @[PC.scala 27:20]
+      reset => (reset, UInt<8>("h0")) @[PC.scala 14:30]
+    io.instRomEn <= UInt<1>("h1") @[PC.scala 16:18]
+    node _instRomAddr_T = add(instRomAddr, UInt<3>("h4")) @[PC.scala 18:50]
+    node _instRomAddr_T_1 = tail(_instRomAddr_T, 1) @[PC.scala 18:50]
+    node _instRomAddr_T_2 = mux(io.instRomEn, _instRomAddr_T_1, UInt<1>("h0")) @[PC.scala 18:23]
+    instRomAddr <= _instRomAddr_T_2 @[PC.scala 18:17]
+    io.instRomAddr <= instRomAddr @[PC.scala 25:20]
 
   module InstROM :
     input clock : Clock
@@ -38,22 +35,25 @@ circuit IF :
   module IF :
     input clock : Clock
     input reset : UInt<1>
-    output io : { instAddr : UInt<8>, inst : UInt<32>}
+    output io : { instRomAddr : UInt<8>, instRomData : UInt<32>}
 
     reg instAddr : UInt<8>, clock with :
-      reset => (reset, UInt<8>("h0")) @[IF.scala 14:27]
-    inst pc of PC @[IF.scala 16:20]
+      reset => (reset, UInt<8>("h0")) @[IF.scala 15:27]
+    inst pc of PC @[IF.scala 17:20]
     pc.clock <= clock
     pc.reset <= reset
-    inst instROM of InstROM @[IF.scala 17:25]
+    inst instROM of InstROM @[IF.scala 18:25]
     instROM.clock <= clock
     instROM.reset <= reset
-    instROM.io.wEn is invalid @[IF.scala 19:20]
-    instROM.io.wAddr is invalid @[IF.scala 20:22]
-    instROM.io.wData is invalid @[IF.scala 21:22]
+    instROM.io.wEn is invalid @[IF.scala 20:20]
+    instROM.io.wAddr is invalid @[IF.scala 21:22]
+    instROM.io.wData is invalid @[IF.scala 22:22]
     node _instROM_io_rAddr_T = shr(pc.io.instRomAddr, 2) @[IF.scala 24:44]
     instROM.io.rAddr <= _instROM_io_rAddr_T @[IF.scala 24:22]
     instROM.io.ena <= pc.io.instRomEn @[IF.scala 25:20]
-    io.inst <= instROM.io.rData @[IF.scala 27:13]
-    io.instAddr <= instROM.io.rAddr @[IF.scala 28:17]
+    io.instRomData <= instROM.io.rData @[IF.scala 27:20]
+    node _instAddr_T = shr(pc.io.instRomAddr, 2) @[IF.scala 29:36]
+    instAddr <= _instAddr_T @[IF.scala 29:14]
+    node _io_instRomAddr_T = shr(pc.io.instRomAddr, 2) @[IF.scala 30:41]
+    io.instRomAddr <= _io_instRomAddr_T @[IF.scala 30:20]
 

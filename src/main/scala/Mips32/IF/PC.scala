@@ -1,4 +1,4 @@
-package Mips32
+package Mips32.IF
 
 import chisel3._
 import chisel3.stage.ChiselGeneratorAnnotation
@@ -11,19 +11,17 @@ class PC extends Module {
         val instRomAddr = Output(UInt(8.W))
     })
     
-    val instRomEn = RegInit(false.B)
     val instRomAddr = RegInit(0.U(8.W))
     
-    instRomEn := true.B
+    io.instRomEn := true.B
     
-    instRomAddr := Mux(instRomEn, instRomAddr + 4.U, 0.U)
+    instRomAddr := Mux(io.instRomEn, instRomAddr + 4.U, 0.U)
     //  when(instRonEn === true.B) {
     //    instRomAddr := instRomAddr + 4.U
     //  }.otherwise {
     //    instRomAddr := 0.U
     //  }
     
-    io.instRomEn := instRomEn
     io.instRomAddr := instRomAddr
 }
 
