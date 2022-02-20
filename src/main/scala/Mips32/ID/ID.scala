@@ -33,39 +33,41 @@ class ID extends Module {
     val op = WireInit(0.U(6.W)) // 指令码
     val imm = WireInit(0.U(32.W)) // 立即数
     
-    op := io.instData(31, 26) // 识别指令码
+     // 初始化
+    io.r1REn := false.B // 寄存器1读使能初始化
+    io.r2REn := false.B // 寄存器2读使能初始化
+    io.rWEn := false.B // 寄存器写使能初始化
+    io.iKind := "b00000000".asUInt // 指令类型初始化
+    io.iSKind := "b000".asUInt // 指令子类型初始化
+    io.source1 := 0.U // 操作数1初始化
+    io.source2 := 0.U // 操作数2初始化
     
-    io.r1REn := false.B
-    io.r2REn := false.B
-    io.rWEn := false.B
-    io.iKind := "b00000000".asUInt
-    io.iSKind := "b000".asUInt
-    io.source1 := 0.U
-    io.source2 := 0.U
-    io.rWAddr := io.instData(20, 16)
-    io.r1RAddr := io.instData(25, 21)
-    io.r2RAddr := io.instData(20, 16)
+    op := io.instData(31, 26) // 指令码
+    io.rWAddr := io.instData(20, 16) // 寄存器写地址
+    io.r1RAddr := io.instData(25, 21) // 寄存器1读地址
+    io.r2RAddr := io.instData(20, 16) // 寄存器2读地址
     
+     // 解码指令
     switch(op) {
-        is ("b001101".asUInt) {
-            io.rWEn := true.B // 需要写寄存器
-            io.iKind := "b00100101".asUInt
-            io.iSKind := "b001".asUInt
-            io.r1REn := true.B
-            io.r2REn := false.B
-            imm := io.instData(15, 0)
+        is ("b001101".asUInt) { // 指令码为001101
+            io.rWEn := true.B // 寄存器写使能有效
+            io.r1REn := true.B // 寄存器1读使能有效
+            io.r2REn := false.B // 寄存器2读使能无效
+            io.iKind := "b00100101".asUInt // 指令类型为00100101
+            io.iSKind := "b001".asUInt // 指令子类型为001
+            imm := io.instData(15, 0) // 获取指令中的立即数，并将其扩展为32位
         }
     }
     
-    when(io.r1REn === true.B) {
+    when(io.r1REn === true.B) { // 当寄存器1读使能有效时，将操作数1重定向为寄存器1读数据
         io.source1 := io.r1RData
-    }.elsewhen(io.r1REn === false.B) {
+    }.elsewhen(io.r1REn === false.B) { // 当寄存器1读使能无效时，将操作数1重定向为立即数
         io.source1 := imm
     }
     
-    when(io.r2REn === true.B) {
+    when(io.r2REn === true.B) { // 当寄存器2读使能有效时，将操作数2重定向为寄存器2读数据
         io.source2 := io.r2RData
-    }.elsewhen(io.r2REn === false.B) {
+    }.elsewhen(io.r2REn === false.B) { // 当寄存器2读使能无效时，将操作数2重定向为立即数
         io.source2 := imm
     }
 }

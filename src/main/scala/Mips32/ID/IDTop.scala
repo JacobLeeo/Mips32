@@ -23,6 +23,15 @@ class IDTop extends Module {
         val rWEn = Output(Bool()) // 寄存器写使能
     })
     
+    val iKind = RegInit(0.U(8.W)) // 指令类型
+    val iSKind = RegInit(0.U(3.W)) // 指令子类型
+    
+    val source1 = RegInit(0.U(32.W)) // 操作数1
+    val source2 = RegInit(0.U(32.W)) // 操作数2
+    
+    val rWAddr = RegInit(0.U(5.W)) // 寄存器写地址
+    val rWEn = RegInit(false.B) // 寄存器写使能
+    
     val id = Module(new ID)
     val rf = Module(new RegFile)
     
@@ -36,14 +45,20 @@ class IDTop extends Module {
     id.io.r1RData := rf.io.r1RData
     id.io.r2RData := rf.io.r2RData
     
-    io.source1 := id.io.source1
-    io.source2 := id.io.source2
+    source1 := id.io.source1
+    io.source1 := source1
+    source2 := id.io.source2
+    io.source2 := source2
     
-    io.rWEn := id.io.rWEn
-    io.rWAddr := id.io.rWAddr
+    rWEn := id.io.rWEn
+    io.rWEn := rWEn
+    rWAddr := id.io.rWAddr
+    io.rWAddr := rWAddr
     
-    io.iKind := id.io.iKind
-    io.iSKind := id.io.iSKind
+    iKind := id.io.rWAddr
+    io.iKind := iKind
+    iSKind := id.io.iSKind
+    io.iSKind := iSKind
     
     rf.io.rWEn := DontCare
     rf.io.rWAddr := DontCare

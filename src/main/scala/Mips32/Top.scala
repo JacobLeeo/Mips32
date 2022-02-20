@@ -2,6 +2,7 @@ package Mips32
 
 import Mips32.IF.IFTop
 import Mips32.ID.IDTop
+
 import chisel3._
 import chisel3.util._
 import chisel3.stage.ChiselGeneratorAnnotation
