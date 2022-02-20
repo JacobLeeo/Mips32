@@ -10,6 +10,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 class RegFile extends Module {
     val io = IO(new Bundle() {
+        
         val rWEn = Input(Bool()) // 寄存器写使能
         val r1REn = Input(Bool()) // 寄存器1读使能
         val r2REn = Input(Bool()) // 寄存器2读使能
@@ -54,7 +55,7 @@ class RegFile extends Module {
     }.elsewhen(io.r2REn === true.B) {
         io.r2RData := regBank.read(io.r2RAddr)
     }.otherwise {
-        io.r2RData := 0.U
+        io.r2RData := 2.U
     }
     
 }
@@ -62,4 +63,3 @@ class RegFile extends Module {
 object RegFileInst extends App {
     (new chisel3.stage.ChiselStage).execute(Array("--target-dir", "generated\\ID\\RegFile"), Seq(ChiselGeneratorAnnotation(() => new RegFile)))
 }
-

@@ -15,27 +15,27 @@ module InstROM(
   reg [31:0] _RAND_1;
   reg [31:0] _RAND_2;
 `endif // RANDOMIZE_REG_INIT
-  reg [31:0] memBank [0:255]; // @[InstROM.scala 19:30]
-  wire  memBank_io_rData_MPORT_en; // @[InstROM.scala 19:30]
-  wire [7:0] memBank_io_rData_MPORT_addr; // @[InstROM.scala 19:30]
-  wire [31:0] memBank_io_rData_MPORT_data; // @[InstROM.scala 19:30]
-  wire [31:0] memBank_MPORT_data; // @[InstROM.scala 19:30]
-  wire [7:0] memBank_MPORT_addr; // @[InstROM.scala 19:30]
-  wire  memBank_MPORT_mask; // @[InstROM.scala 19:30]
-  wire  memBank_MPORT_en; // @[InstROM.scala 19:30]
+  reg [31:0] memBank [0:255]; // @[InstROM.scala 21:30]
+  wire  memBank_io_rData_MPORT_en; // @[InstROM.scala 21:30]
+  wire [7:0] memBank_io_rData_MPORT_addr; // @[InstROM.scala 21:30]
+  wire [31:0] memBank_io_rData_MPORT_data; // @[InstROM.scala 21:30]
+  wire [31:0] memBank_MPORT_data; // @[InstROM.scala 21:30]
+  wire [7:0] memBank_MPORT_addr; // @[InstROM.scala 21:30]
+  wire  memBank_MPORT_mask; // @[InstROM.scala 21:30]
+  wire  memBank_MPORT_en; // @[InstROM.scala 21:30]
   reg  memBank_io_rData_MPORT_en_pipe_0;
   reg [7:0] memBank_io_rData_MPORT_addr_pipe_0;
   assign memBank_io_rData_MPORT_en = memBank_io_rData_MPORT_en_pipe_0;
   assign memBank_io_rData_MPORT_addr = memBank_io_rData_MPORT_addr_pipe_0;
-  assign memBank_io_rData_MPORT_data = memBank[memBank_io_rData_MPORT_addr]; // @[InstROM.scala 19:30]
+  assign memBank_io_rData_MPORT_data = memBank[memBank_io_rData_MPORT_addr]; // @[InstROM.scala 21:30]
   assign memBank_MPORT_data = io_wData;
   assign memBank_MPORT_addr = io_wAddr;
   assign memBank_MPORT_mask = 1'h1;
   assign memBank_MPORT_en = io_ena & io_wEn;
-  assign io_rData = memBank_io_rData_MPORT_data; // @[InstROM.scala 22:14]
+  assign io_rData = memBank_io_rData_MPORT_data; // @[InstROM.scala 24:14]
   always @(posedge clock) begin
     if (memBank_MPORT_en & memBank_MPORT_mask) begin
-      memBank[memBank_MPORT_addr] <= memBank_MPORT_data; // @[InstROM.scala 19:30]
+      memBank[memBank_MPORT_addr] <= memBank_MPORT_data; // @[InstROM.scala 21:30]
     end
     memBank_io_rData_MPORT_en_pipe_0 <= io_ena;
     if (io_ena) begin

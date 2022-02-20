@@ -62,6 +62,9 @@ class RegFileTest extends AnyFlatSpec with ChiselScalatestTester {
                 dut.io.r1RAddr.poke(2.U(5.W))
                 dut.clock.step(1)
                 
+//                dut.reset.poke(true.B)
+//                dut.clock.step(5)
+                
                 dut.io.r1RAddr.poke(3.U(5.W))
                 dut.clock.step(1)
                 

@@ -1,0 +1,23 @@
+[
+  {
+    "class":"firrtl.annotations.LoadMemoryAnnotation",
+    "target":"Top.InstROM.memBank",
+    "fileName":"mem.txt",
+    "hexOrBinary":"h",
+    "originalMemoryNameOpt":"memBank"
+  },
+  {
+    "class":"firrtl.EmitCircuitAnnotation",
+    "emitter":"firrtl.VerilogEmitter"
+  },
+  {
+    "class":"firrtl.transforms.BlackBoxTargetDirAnno",
+    "targetDir":"generated"
+  },
+  {
+    "class":"firrtl.transforms.BlackBoxInlineAnno",
+    "target":"Top.InstROM",
+    "name":"Top.InstROM.memBank.v",
+    "text":"module BindsTo_0_InstROM(\n  input         clock,\n  input         io_ena,\n  input  [7:0]  io_rAddr,\n  output [31:0] io_rData\n);\n\ninitial begin\n  $readmemh(\"mem.txt\", InstROM.memBank);\nend\n                      endmodule\n\nbind InstROM BindsTo_0_InstROM BindsTo_0_InstROM_Inst(.*);"
+  }
+]

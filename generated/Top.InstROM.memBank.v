@@ -1,5 +1,6 @@
 module BindsTo_0_InstROM(
   input         clock,
+  input         io_ena,
   input  [7:0]  io_rAddr,
   output [31:0] io_rData
 );

@@ -10,6 +10,8 @@ class PCTest extends AnyFlatSpec with ChiselScalatestTester {
     it should "count up" in {
         test(new PC).withAnnotations(Seq(WriteVcdAnnotation)) { dut =>
             dut.clock.step(50)
+            dut.reset.poke(true.B)
+            dut.clock.step(10)
         }
     }
 }

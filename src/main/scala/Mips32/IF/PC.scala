@@ -12,28 +12,21 @@ class PC extends Module {
     })
     
     val instRomAddr = RegInit(0.U(8.W))
+    val instRomEn =  RegInit(0.U)
     
-    io.instRomEn := true.B
-    
+    instRomEn := true.B
     instRomAddr := Mux(io.instRomEn, instRomAddr + 4.U, 0.U)
-    //  when(instRonEn === true.B) {
-    //    instRomAddr := instRomAddr + 4.U
-    //  }.otherwise {
-    //    instRomAddr := 0.U
-    //  }
+//      when(instRomEn === true.B) {
+//        instRomAddr := instRomAddr + 4.U
+//      }.otherwise {
+//        instRomAddr := 0.U
+//      }
     
     io.instRomAddr := instRomAddr
+    io.instRomEn := instRomEn
 }
 
 object PCInst extends App {
     (new chisel3.stage.ChiselStage).execute(Array("--target-dir", "generated\\IF\\PC"), Seq(ChiselGeneratorAnnotation(() => new PC)))
 }
 
-class PCTest extends AnyFlatSpec with ChiselScalatestTester {
-    behavior of "PC"
-    it should "count up" in {
-        test(new PC).withAnnotations(Seq(WriteVcdAnnotation)) { dut =>
-            dut.clock.step(50)
-        }
-    }
-}
