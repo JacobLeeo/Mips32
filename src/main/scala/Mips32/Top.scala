@@ -12,6 +12,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 class Top extends Module {
     val io = IO(new Bundle() {
+        
         val iKind = Output(UInt(8.W)) // 指令类型
         val iSKind = Output(UInt(3.W)) // 指令子类型
     
