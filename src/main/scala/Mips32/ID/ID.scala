@@ -42,7 +42,7 @@ class ID extends Module {
     io.source1 := 0.U // 操作数1初始化
     io.source2 := 0.U // 操作数2初始化
     
-    op := io.instData(31, 26) // 指令码
+    op := io.instData(31, 26) // 指令操作码
     io.rWAddr := io.instData(20, 16) // 寄存器写地址
     io.r1RAddr := io.instData(25, 21) // 寄存器1读地址
     io.r2RAddr := io.instData(20, 16) // 寄存器2读地址

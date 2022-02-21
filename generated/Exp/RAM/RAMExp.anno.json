@@ -1,0 +1,23 @@
+[
+  {
+    "class":"firrtl.EmitCircuitAnnotation",
+    "emitter":"firrtl.VerilogEmitter"
+  },
+  {
+    "class":"firrtl.transforms.BlackBoxTargetDirAnno",
+    "targetDir":"generated\\Exp\\RAM"
+  },
+  {
+    "class":"firrtl.annotations.MemoryFileInlineAnnotation",
+    "target":"~RAMExp|RAMExp>mem",
+    "filename":"memexp.txt",
+    "hexOrBinary":"h"
+  },
+  {
+    "class":"firrtl.transforms.CombinationalPath",
+    "sink":"~RAMExp|RAMExp>io_dataOut",
+    "sources":[
+      "~RAMExp|RAMExp>io_write"
+    ]
+  }
+]

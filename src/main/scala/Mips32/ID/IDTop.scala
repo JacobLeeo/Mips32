@@ -55,7 +55,7 @@ class IDTop extends Module {
     rWAddr := id.io.rWAddr
     io.rWAddr := rWAddr
     
-    iKind := id.io.rWAddr
+    iKind := id.io.iKind
     io.iKind := iKind
     iSKind := id.io.iSKind
     io.iSKind := iSKind

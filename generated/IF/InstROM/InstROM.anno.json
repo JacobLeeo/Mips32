@@ -15,9 +15,16 @@
     "targetDir":"generated\\IF\\InstROM"
   },
   {
+    "class":"firrtl.transforms.CombinationalPath",
+    "sink":"~InstROM|InstROM>io_rData",
+    "sources":[
+      "~InstROM|InstROM>io_wEn"
+    ]
+  },
+  {
     "class":"firrtl.transforms.BlackBoxInlineAnno",
     "target":"InstROM.InstROM",
     "name":"InstROM.InstROM.memBank.v",
-    "text":"module BindsTo_0_InstROM(\n  input         clock,\n  input         reset,\n  input         io_ena,\n  input  [7:0]  io_rAddr,\n  output [31:0] io_rData,\n  input         io_wEn,\n  input  [7:0]  io_wAddr,\n  input  [31:0] io_wData\n);\n\ninitial begin\n  $readmemh(\"mem.txt\", InstROM.memBank);\nend\n                      endmodule\n\nbind InstROM BindsTo_0_InstROM BindsTo_0_InstROM_Inst(.*);"
+    "text":"module BindsTo_0_InstROM(\n  input         clock,\n  input         reset,\n  input         io_ena,\n  input  [7:0]  io_rAddr,\n  output [31:0] io_rData,\n  input         io_wEn,\n  input  [31:0] io_wData\n);\n\ninitial begin\n  $readmemh(\"mem.txt\", InstROM.memBank);\nend\n                      endmodule\n\nbind InstROM BindsTo_0_InstROM BindsTo_0_InstROM_Inst(.*);"
   }
 ]

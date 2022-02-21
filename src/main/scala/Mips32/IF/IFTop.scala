@@ -19,7 +19,6 @@ class IFTop extends Module {
     val instROM = Module(new InstROM()) // 调用instROM模块
     
     instROM.io.wEn := DontCare // instROM的写使能不连接
-    instROM.io.wAddr := DontCare // instROM的写地址不连接
     instROM.io.wData := DontCare // instROM的写数据不连接
     
     instROM.io.rAddr := (pc.io.instRomAddr >> 2) // PC输出到InstROM的instROM地址信号

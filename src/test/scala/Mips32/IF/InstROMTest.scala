@@ -10,29 +10,25 @@ class InstROMTest extends AnyFlatSpec with ChiselScalatestTester {
     behavior of "InstROM"
     it should "Read or Write" in {
         test(new InstROM).withAnnotations(Seq(WriteVcdAnnotation)) { dut =>
-            
-            val testThr = fork {
                 
                 dut.io.wEn.poke(false.B)
                 dut.io.ena.poke(false.B)
-                dut.clock.step(10)
+                dut.clock.step(6)
     
                 dut.io.ena.poke(true.B)
                 
-                dut.io.rAddr.poke(0.U(8.W))
+                dut.io.rAddr.poke(0.U)
                 dut.clock.step(2)
                 
-                dut.io.rAddr.poke(1.U(8.W))
+                dut.io.rAddr.poke(1.U)
                 dut.clock.step(2)
                 
-                dut.io.rAddr.poke(2.U(8.W))
+                dut.io.rAddr.poke(2.U)
                 dut.clock.step(2)
                 
-                dut.io.rAddr.poke(3.U(8.W))
+                dut.io.rAddr.poke(3.U)
                 dut.clock.step(2)
-                
-            }
-            testThr.join()
+            
         }
     }
 }

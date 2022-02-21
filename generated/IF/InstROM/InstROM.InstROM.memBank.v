@@ -5,7 +5,6 @@ module BindsTo_0_InstROM(
   input  [7:0]  io_rAddr,
   output [31:0] io_rData,
   input         io_wEn,
-  input  [7:0]  io_wAddr,
   input  [31:0] io_wData
 );
 
