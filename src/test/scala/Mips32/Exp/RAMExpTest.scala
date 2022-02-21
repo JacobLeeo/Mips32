@@ -1,5 +1,6 @@
 package Mips32.Exp
 
+import Exp.RAMExp
 import chisel3._
 import chisel3.util._
 import chisel3.util.experimental.loadMemoryFromFileInline
@@ -7,7 +8,7 @@ import chisel3.stage.ChiselGeneratorAnnotation
 import chiseltest._
 import chiseltest.{ChiselScalatestTester, WriteVcdAnnotation}
 import org.scalatest.flatspec.AnyFlatSpec
-import chisel3.experimental.{annotate, ChiselAnnotation}
+import chisel3.experimental.{ChiselAnnotation, annotate}
 import firrtl.annotations.MemorySynthInit
 
 

@@ -11,7 +11,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 class TopTest extends AnyFlatSpec with ChiselScalatestTester {
     behavior of "Top"
-    it should "" in {
+    it should "test IF ID EX" in {
         test(new Top).withAnnotations(Seq(WriteVcdAnnotation)) { dut =>
             dut.clock.step(10)
         }

@@ -2,9 +2,7 @@ package Mips32
 
 import Mips32.IF.IFTop
 import Mips32.ID.IDTop
-import Mips32.EX.EX
-
-
+import Mips32.EX.{EX, EX_MEM}
 import chisel3._
 import chisel3.util._
 import chisel3.stage.ChiselGeneratorAnnotation
@@ -24,20 +22,25 @@ class Top extends Module {
     val iftop = Module(new IFTop)
     val idTop = Module(new IDTop)
     val ex = Module(new EX)
+    val ex_mem = Module(new EX_MEM)
     
     idTop.io.instData := iftop.io.instRomData
     idTop.io.instAddr := iftop.io.instRomAddr
     
-    ex.io.iKind := idTop.io.iKind
-    ex.io.iSKind := idTop.io.iSKind
+    ex.io.instSubKind := idTop.io.iKind
+    ex.io.instKind := idTop.io.iSKind
     ex.io.source1 := idTop.io.source1
     ex.io.source2 := idTop.io.source2
     ex.io.rWAddr := idTop.io.rWAddr
     ex.io.rWEn := idTop.io.rWEn
     
-    io.rWDataO := ex.io.rWDataO
-    io.rWEnO := ex.io.rWEn
-    io.rWAddrO := ex.io.rWAddrO
+    ex_mem.io.rWDataIn := ex.io.rWDataO
+    ex_mem.io.rWEnIn := ex.io.rWEn
+    ex_mem.io.rWAddrIn := ex.io.rWAddrO
+    
+    io.rWDataO := ex_mem.io.rWDataOut
+    io.rWEnO := ex_mem.io.rWEnOut
+    io.rWAddrO := ex_mem.io.rWAddrOut
 }
 
 object TopInst extends App {

@@ -11,8 +11,8 @@ class EX extends Module {
     val width = 32.W
     
     val io = IO(new Bundle() {
-        val iKind = Input(UInt(8.W)) // op 子类型
-        val iSKind = Input(UInt(3.W)) // sel 类型
+        val instSubKind = Input(UInt(8.W)) // op 子类型
+        val instKind = Input(UInt(3.W)) // sel 类型
         
         val source1 = Input(UInt(width)) // 操作数1
         val source2 = Input(UInt(width)) // 操作数2
@@ -34,13 +34,13 @@ class EX extends Module {
     
     
     
-    switch(io.iKind) {
+    switch(io.instSubKind) {
         is("b00100101".asUInt) {
             logicResult := io.source1 | io.source2
         }
     }
     
-    switch(io.iSKind) {
+    switch(io.instKind) {
         is("b001".asUInt) {
             io.rWDataO := logicResult
         }
