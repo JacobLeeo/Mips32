@@ -1,35 +1,28 @@
-module PC(
+module DbtEXMEM(
   input         clock,
   input         reset,
-  output        io_outToIR_iREn,
-  output [7:0]  io_outToIR_iRRdAd,
-  output        io_outToIR_iRWrEn,
-  output [31:0] io_outToIR_iRWrDt
+  input  [4:0]  io_inFromEX_rWAddrO,
+  input         io_inFromEX_rWEnO,
+  input  [31:0] io_inFromEX_rWDataO,
+  output [4:0]  io_outToMEM_rWAddrO,
+  output        io_outToMEM_rWEnO,
+  output [31:0] io_outToMEM_rWDataO
 );
 `ifdef RANDOMIZE_REG_INIT
   reg [31:0] _RAND_0;
   reg [31:0] _RAND_1;
+  reg [31:0] _RAND_2;
 `endif // RANDOMIZE_REG_INIT
-  reg [7:0] instRomAddr; // @[PC.scala 14:30]
-  reg  instRomEn; // @[PC.scala 15:29]
-  wire [7:0] _instRomAddr_T_1 = instRomAddr + 8'h4; // @[PC.scala 18:53]
-  assign io_outToIR_iREn = instRomEn; // @[PC.scala 23:21]
-  assign io_outToIR_iRRdAd = instRomAddr; // @[PC.scala 22:23]
-  assign io_outToIR_iRWrEn = 1'h0;
-  assign io_outToIR_iRWrDt = 32'h0;
+  reg [4:0] rWAddr; // @[DbtEXMEM.scala 19:25]
+  reg  rWEn; // @[DbtEXMEM.scala 20:23]
+  reg [31:0] rWData; // @[DbtEXMEM.scala 21:25]
+  assign io_outToMEM_rWAddrO = rWAddr; // @[DbtEXMEM.scala 23:25]
+  assign io_outToMEM_rWEnO = rWEn; // @[DbtEXMEM.scala 24:23]
+  assign io_outToMEM_rWDataO = rWData; // @[DbtEXMEM.scala 25:25]
   always @(posedge clock) begin
-    if (reset) begin // @[PC.scala 14:30]
-      instRomAddr <= 8'h0; // @[PC.scala 14:30]
-    end else if (io_outToIR_iREn) begin // @[PC.scala 18:23]
-      instRomAddr <= _instRomAddr_T_1;
-    end else begin
-      instRomAddr <= 8'h0;
-    end
-    if (reset) begin // @[PC.scala 15:29]
-      instRomEn <= 1'h0; // @[PC.scala 15:29]
-    end else begin
-      instRomEn <= 1'h1; // @[PC.scala 17:15]
-    end
+    rWAddr <= io_inFromEX_rWAddrO; // @[DbtEXMEM.scala 19:25]
+    rWEn <= io_inFromEX_rWEnO; // @[DbtEXMEM.scala 20:23]
+    rWData <= io_inFromEX_rWDataO; // @[DbtEXMEM.scala 21:25]
   end
 // Register and memory initialization
 `ifdef RANDOMIZE_GARBAGE_ASSIGN
@@ -68,9 +61,11 @@ initial begin
     `endif
 `ifdef RANDOMIZE_REG_INIT
   _RAND_0 = {1{`RANDOM}};
-  instRomAddr = _RAND_0[7:0];
+  rWAddr = _RAND_0[4:0];
   _RAND_1 = {1{`RANDOM}};
-  instRomEn = _RAND_1[0:0];
+  rWEn = _RAND_1[0:0];
+  _RAND_2 = {1{`RANDOM}};
+  rWData = _RAND_2[31:0];
 `endif // RANDOMIZE_REG_INIT
   `endif // RANDOMIZE
 end // initial

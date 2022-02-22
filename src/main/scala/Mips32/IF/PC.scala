@@ -1,32 +1,28 @@
 package Mips32.IF
 
+import Mips32._
 import chisel3._
 import chisel3.stage.ChiselGeneratorAnnotation
-import chiseltest._
-import org.scalatest.flatspec.AnyFlatSpec
+
 
 class PC extends Module {
+    
     val io = IO(new Bundle() {
-        val instRomEn = Output(Bool())
-        val instRomAddr = Output(UInt(8.W))
+        val outToIR = new PC2IR // 从PC输出到IR的信号
     })
     
     val instRomAddr = RegInit(0.U(8.W))
-    val instRomEn =  RegInit(0.U)
+    val instRomEn =  RegInit(false.B)
     
     instRomEn := true.B
-    instRomAddr := Mux(io.instRomEn, instRomAddr + 4.U, 0.U)
-//      when(instRomEn === true.B) {
-//        instRomAddr := instRomAddr + 4.U
-//      }.otherwise {
-//        instRomAddr := 0.U
-//      }
+    instRomAddr := Mux(io.outToIR.iREn, instRomAddr + 4.U, 0.U)
     
-    io.instRomAddr := instRomAddr
-    io.instRomEn := instRomEn
+    io.outToIR.iRWrDt := DontCare
+    io.outToIR.iRWrEn := DontCare
+    io.outToIR.iRRdAd := instRomAddr
+    io.outToIR.iREn := instRomEn
 }
 
-object PCInst extends App {
+object PC extends App {
     (new chisel3.stage.ChiselStage).execute(Array("--target-dir", "generated\\IF\\PC"), Seq(ChiselGeneratorAnnotation(() => new PC)))
 }
-

@@ -1,11 +1,11 @@
 module BindsTo_0_InstROM(
   input         clock,
   input         reset,
-  input         io_ena,
-  input  [7:0]  io_rAddr,
-  output [31:0] io_rData,
-  input         io_wEn,
-  input  [31:0] io_wData
+  input         io_inFromPC_iREn,
+  input  [7:0]  io_inFromPC_iRRdAd,
+  input         io_inFromPC_iRWrEn,
+  input  [31:0] io_inFromPC_iRWrDt,
+  output [31:0] io_outToD_iRRdDt
 );
 
 initial begin
