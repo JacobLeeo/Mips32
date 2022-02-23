@@ -4,6 +4,9 @@ import Mips32._
 import chisel3._
 import chisel3.stage.ChiselGeneratorAnnotation
 import chisel3.util.experimental.loadMemoryFromFile
+import chisel3.util.experimental.loadMemoryFromFileInline
+import chisel3.experimental.{annotate, ChiselAnnotation}
+import firrtl.annotations.MemorySynthInit
 
 
 class InstROM extends Module {
@@ -15,8 +18,20 @@ class InstROM extends Module {
     
     val enable = RegInit(false.B)
     val iAdRS2 = WireInit(0.U)
+    
+    
+//    val memBank = SyncReadMem(256, UInt(32.W))
+//    loadMemoryFromFile(memBank, "mem.txt")
+    
+    annotate(new ChiselAnnotation {
+        override def toFirrtl =
+            MemorySynthInit
+    })
+    
     val memBank = SyncReadMem(256, UInt(32.W))
-    loadMemoryFromFile(memBank, "mem.txt")
+    if ("mem.txt".trim().nonEmpty) {
+        loadMemoryFromFileInline(memBank, "mem.txt")
+    }
     
      // 这两个信号至关重要
     io.outToD.iRRdDt := 0.U

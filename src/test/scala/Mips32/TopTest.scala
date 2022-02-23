@@ -8,7 +8,7 @@ class TopTest extends AnyFlatSpec with ChiselScalatestTester {
     behavior of "Top"
     it should "" in {
         test(new Top).withAnnotations(Seq(WriteVcdAnnotation)) { dut =>
-            dut.clock.step(10)
+            dut.clock.step(12)
         }
     }
 }

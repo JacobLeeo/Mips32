@@ -9,6 +9,9 @@ class IDTop extends Module {
     
     val io = IO(new Bundle() {
         val inFromIF = Flipped(new D2ID)
+        val inFromWB = Flipped(new WB2RF)
+    
+        val outToTop = new IDTop2Top
         val outToEX = new ID2EX
     })
     
@@ -22,7 +25,9 @@ class IDTop extends Module {
     d.io.inFromID <> dc.io.outToD
     io.outToEX <> d.io.outToEX
     
-    rf.io.inFromWB := DontCare // 写回阶段连接到寄存器堆的写地址、写数据和写使能
+    rf.io.inFromWB <> io.inFromWB // 写回阶段连接到寄存器堆的写地址、写数据和写使能
+    
+    io.outToTop.fromRF := rf.io.outToIDTop
 }
 
 object IDTop extends App {

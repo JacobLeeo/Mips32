@@ -53,8 +53,61 @@ class D2MEM extends EX2D {}
 
 class EX2MEM extends D2MEM {}
 
+class MEM2D extends Bundle {
+    val rWAddrO = Output(UInt(5.W)) // 执行阶段寄存器写地址输出
+    val rWEnO = Output(Bool()) // 执行阶段寄存器写使能输出
+    val rWDataO = Output(UInt(32.W)) // 执行阶段寄存器写数据输出
+}
+
+class D2WB extends MEM2D {}
+
+class MEM2WB extends  D2WB {}
+
 class WB2RF extends Bundle {
-    val rWEn = Output(Bool()) // 寄存器写使能
-    val rWAddr = Output(UInt(32.W)) // 寄存器1读使能
-    val rWData = Output(UInt(32.W)) // 寄存器2读使能
+    val rWEnO = Output(Bool()) // 寄存器写使能
+    val rWAddrO = Output(UInt(5.W)) // 寄存器1读使能
+    val rWDataO = Output(UInt(32.W)) // 寄存器2读使能
+}
+
+class RF2IDTop extends Bundle {
+    val r1Out = Output(UInt(32.W))
+    val r2Out = Output(UInt(32.W))
+    val r3Out = Output(UInt(32.W))
+    val r4Out = Output(UInt(32.W))
+    val r5Out = Output(UInt(32.W))
+    val r6Out = Output(UInt(32.W))
+    val r7Out = Output(UInt(32.W))
+    val r8Out = Output(UInt(32.W))
+    val r9Out = Output(UInt(32.W))
+    val r10Out = Output(UInt(32.W))
+    val r11Out = Output(UInt(32.W))
+    val r12Out = Output(UInt(32.W))
+    val r13Out = Output(UInt(32.W))
+    val r14Out = Output(UInt(32.W))
+    val r15Out = Output(UInt(32.W))
+    val r16Out = Output(UInt(32.W))
+    val r17Out = Output(UInt(32.W))
+    val r18Out = Output(UInt(32.W))
+    val r19Out = Output(UInt(32.W))
+    val r20Out = Output(UInt(32.W))
+    val r21Out = Output(UInt(32.W))
+    val r22Out = Output(UInt(32.W))
+    val r23Out = Output(UInt(32.W))
+    val r24Out = Output(UInt(32.W))
+    val r25Out = Output(UInt(32.W))
+    val r26Out = Output(UInt(32.W))
+    val r27Out = Output(UInt(32.W))
+    val r28Out = Output(UInt(32.W))
+    val r29Out = Output(UInt(32.W))
+    val r30Out = Output(UInt(32.W))
+    val r31Out = Output(UInt(32.W))
+}
+
+
+class IDTop2Top extends Bundle {
+    val fromRF = new RF2IDTop
+}
+
+class Top2Out extends Bundle {
+    val fromIDTop = new IDTop2Top
 }

@@ -13,14 +13,15 @@ class PC extends Module {
     
     val instRomAddr = RegInit(0.U(8.W))
     val instRomEn =  RegInit(false.B)
-    
+
     instRomEn := true.B
     instRomAddr := Mux(io.outToIR.iREn, instRomAddr + 4.U, 0.U)
-    
+
     io.outToIR.iRWrDt := DontCare
     io.outToIR.iRWrEn := DontCare
     io.outToIR.iRRdAd := instRomAddr
     io.outToIR.iREn := instRomEn
+    
 }
 
 object PC extends App {
