@@ -14,9 +14,9 @@ class IR2D extends Bundle {
     val iRRdDt = Output(UInt(32.W))
 }
 
-class D2ID extends Bundle {
-    val iRRdDt = Output(UInt(32.W))
-}
+class D2ID extends IR2D {}
+
+class IF2ID extends D2ID {}
 
 class ID2RF extends Bundle {
     val r1REn = Output(Bool()) // 寄存器1读使能
@@ -39,9 +39,9 @@ class ID2D extends Bundle {
     val rWEn = Output(Bool()) // 寄存器写使能
 }
 
-class D2EX extends ID2D {
+class D2EX extends ID2D {}
 
-}
+class ID2EX extends D2EX {}
 
 class EX2D extends Bundle {
     val rWAddrO = Output(UInt(5.W)) // 执行阶段寄存器写地址输出
@@ -49,12 +49,9 @@ class EX2D extends Bundle {
     val rWDataO = Output(UInt(32.W)) // 执行阶段寄存器写数据输出
 }
 
- // TODO 改成继承试一试
-class D2MEM extends Bundle {
-    val rWAddrO = Output(UInt(5.W)) // 执行阶段寄存器写地址输出
-    val rWEnO = Output(Bool()) // 执行阶段寄存器写使能输出
-    val rWDataO = Output(UInt(32.W)) // 执行阶段寄存器写数据输出
-}
+class D2MEM extends EX2D {}
+
+class EX2MEM extends D2MEM {}
 
 class WB2RF extends Bundle {
     val rWEn = Output(Bool()) // 寄存器写使能

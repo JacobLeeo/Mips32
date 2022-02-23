@@ -9,7 +9,7 @@ class IDTop extends Module {
     
     val io = IO(new Bundle() {
         val inFromIF = Flipped(new D2ID)
-        val outToEX = new D2EX
+        val outToEX = new ID2EX
     })
     
     val d = Module(new DbtIDEX)
