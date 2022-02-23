@@ -15,7 +15,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 class IFTop extends Module {
     
     val io = IO(new Bundle() {
-        val outToID = new D2ID
+        val outToID = new IF2ID
     })
     
     val pc = Module(new PC)

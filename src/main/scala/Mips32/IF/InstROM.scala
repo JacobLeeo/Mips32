@@ -25,10 +25,13 @@ class InstROM extends Module {
     iAdRS2 := io.inFromPC.iRRdAd >> 2
     
     when(enable) {
+        println("IR EN!")
         val rdwrPort = memBank(iAdRS2) // 获取当前地址的读写端口
         when(io.inFromPC.iRWrEn) {
+            println("IR WR!")
             rdwrPort := io.inFromPC.iRWrDt // 当写信号有效时，将写数据写入指定地址
         }.otherwise {
+            println("IR RD!")
             io.outToD.iRRdDt := rdwrPort // 当写信号无效时，从指定地址读取读数据
         }
     }
