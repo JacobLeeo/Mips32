@@ -20,5 +20,5 @@ class EXTop extends Module {
 }
 
 object EXTop extends App {
-    (new chisel3.stage.ChiselStage).execute(Array("--target-dir", "generated\\ID"), Seq(ChiselGeneratorAnnotation(() => new EXTop)))
+    (new chisel3.stage.ChiselStage).execute(Array("--target-dir", "generated\\EX"), Seq(ChiselGeneratorAnnotation(() => new EXTop)))
 }

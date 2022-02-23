@@ -22,7 +22,7 @@ class IFTop extends Module {
     val ir = Module(new InstROM)
     val d = Module(new DBtIFID)
     
-    ir.io.inFromPC <> pc.io.outToIR
+    ir.io.inFromPC <> pc.io.outToIR // 如果PC按字节寻址，不能这样直接连接，且不在IR中做任何处理
     d.io.inFromIF <> ir.io.outToD
     io.outToID <> d.io.outToID
 }

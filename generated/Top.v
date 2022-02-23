@@ -183,7 +183,7 @@ module DBtIFID(
   input  [31:0] io_inFromIF_iRRdDt,
   output [31:0] io_outToID_iRRdDt
 );
-  assign io_outToID_iRRdDt = io_inFromIF_iRRdDt; // @[DBtIFID.scala 17:23]
+  assign io_outToID_iRRdDt = io_inFromIF_iRRdDt; // @[DBtIFID.scala 18:23]
 endmodule
 module IFTop(
   input         clock,

@@ -42,8 +42,8 @@ circuit Top :
 
     wire instRomData : UInt<32>
     instRomData <= UInt<32>("h0")
-    instRomData <= io.inFromIF.iRRdDt @[DBtIFID.scala 16:17]
-    io.outToID.iRRdDt <= instRomData @[DBtIFID.scala 17:23]
+    instRomData <= io.inFromIF.iRRdDt @[DBtIFID.scala 17:17]
+    io.outToID.iRRdDt <= instRomData @[DBtIFID.scala 18:23]
 
   module IFTop :
     input clock : Clock

@@ -62,5 +62,5 @@ class DC extends Module {
 }
 
 object DC extends App {
-    (new chisel3.stage.ChiselStage).execute(Array("--target-dir", "generated\\ID"), Seq(ChiselGeneratorAnnotation(() => new DC)))
+    (new chisel3.stage.ChiselStage).execute(Array("--target-dir", "generated\\ID\\DC"), Seq(ChiselGeneratorAnnotation(() => new DC)))
 }

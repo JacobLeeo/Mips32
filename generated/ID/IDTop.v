@@ -132,33 +132,33 @@ module RegFile(
 `ifdef RANDOMIZE_MEM_INIT
   reg [31:0] _RAND_0;
 `endif // RANDOMIZE_MEM_INIT
-  reg [31:0] regBank [0:31]; // @[RF.scala 16:22]
-  wire  regBank_io_outToID_r1RData_MPORT_en; // @[RF.scala 16:22]
-  wire [4:0] regBank_io_outToID_r1RData_MPORT_addr; // @[RF.scala 16:22]
-  wire [31:0] regBank_io_outToID_r1RData_MPORT_data; // @[RF.scala 16:22]
-  wire  regBank_io_outToID_r2RData_MPORT_en; // @[RF.scala 16:22]
-  wire [4:0] regBank_io_outToID_r2RData_MPORT_addr; // @[RF.scala 16:22]
-  wire [31:0] regBank_io_outToID_r2RData_MPORT_data; // @[RF.scala 16:22]
-  wire [31:0] regBank_MPORT_data; // @[RF.scala 16:22]
-  wire [4:0] regBank_MPORT_addr; // @[RF.scala 16:22]
-  wire  regBank_MPORT_mask; // @[RF.scala 16:22]
-  wire  regBank_MPORT_en; // @[RF.scala 16:22]
-  wire  _T_3 = io_inFromID_r1RAddr == 5'h0; // @[RF.scala 24:30]
-  wire [31:0] _GEN_8 = io_inFromID_r1REn ? regBank_io_outToID_r1RData_MPORT_data : 32'h0; // @[RF.scala 30:48 31:28 33:28]
+  reg [31:0] regBank [0:31]; // @[RegFile.scala 16:22]
+  wire  regBank_io_outToID_r1RData_MPORT_en; // @[RegFile.scala 16:22]
+  wire [4:0] regBank_io_outToID_r1RData_MPORT_addr; // @[RegFile.scala 16:22]
+  wire [31:0] regBank_io_outToID_r1RData_MPORT_data; // @[RegFile.scala 16:22]
+  wire  regBank_io_outToID_r2RData_MPORT_en; // @[RegFile.scala 16:22]
+  wire [4:0] regBank_io_outToID_r2RData_MPORT_addr; // @[RegFile.scala 16:22]
+  wire [31:0] regBank_io_outToID_r2RData_MPORT_data; // @[RegFile.scala 16:22]
+  wire [31:0] regBank_MPORT_data; // @[RegFile.scala 16:22]
+  wire [4:0] regBank_MPORT_addr; // @[RegFile.scala 16:22]
+  wire  regBank_MPORT_mask; // @[RegFile.scala 16:22]
+  wire  regBank_MPORT_en; // @[RegFile.scala 16:22]
+  wire  _T_3 = io_inFromID_r1RAddr == 5'h0; // @[RegFile.scala 24:30]
+  wire [31:0] _GEN_8 = io_inFromID_r1REn ? regBank_io_outToID_r1RData_MPORT_data : 32'h0; // @[RegFile.scala 30:48 31:28 33:28]
   assign regBank_io_outToID_r1RData_MPORT_en = _T_3 ? 1'h0 : io_inFromID_r1REn;
   assign regBank_io_outToID_r1RData_MPORT_addr = io_inFromID_r1RAddr;
-  assign regBank_io_outToID_r1RData_MPORT_data = regBank[regBank_io_outToID_r1RData_MPORT_addr]; // @[RF.scala 16:22]
+  assign regBank_io_outToID_r1RData_MPORT_data = regBank[regBank_io_outToID_r1RData_MPORT_addr]; // @[RegFile.scala 16:22]
   assign regBank_io_outToID_r2RData_MPORT_en = 1'h0;
   assign regBank_io_outToID_r2RData_MPORT_addr = io_inFromID_r2RAddr;
-  assign regBank_io_outToID_r2RData_MPORT_data = regBank[regBank_io_outToID_r2RData_MPORT_addr]; // @[RF.scala 16:22]
+  assign regBank_io_outToID_r2RData_MPORT_data = regBank[regBank_io_outToID_r2RData_MPORT_addr]; // @[RegFile.scala 16:22]
   assign regBank_MPORT_data = 32'h0;
   assign regBank_MPORT_addr = 5'h0;
   assign regBank_MPORT_mask = 1'h1;
   assign regBank_MPORT_en = 1'h0;
-  assign io_outToID_r1RData = io_inFromID_r1RAddr == 5'h0 ? 32'h0 : _GEN_8; // @[RF.scala 24:39 25:28]
+  assign io_outToID_r1RData = io_inFromID_r1RAddr == 5'h0 ? 32'h0 : _GEN_8; // @[RegFile.scala 24:39 25:28]
   always @(posedge clock) begin
     if (regBank_MPORT_en & regBank_MPORT_mask) begin
-      regBank[regBank_MPORT_addr] <= regBank_MPORT_data; // @[RF.scala 16:22]
+      regBank[regBank_MPORT_addr] <= regBank_MPORT_data; // @[RegFile.scala 16:22]
     end
   end
 // Register and memory initialization
@@ -250,38 +250,38 @@ module IDTop(
   output [4:0]  io_outToEX_rWAddr,
   output        io_outToEX_rWEn
 );
-  wire  d_clock; // @[IDTop.scala 17:19]
-  wire  d_reset; // @[IDTop.scala 17:19]
-  wire [7:0] d_io_inFromID_iSK; // @[IDTop.scala 17:19]
-  wire [2:0] d_io_inFromID_iK; // @[IDTop.scala 17:19]
-  wire [31:0] d_io_inFromID_source1; // @[IDTop.scala 17:19]
-  wire [31:0] d_io_inFromID_source2; // @[IDTop.scala 17:19]
-  wire [4:0] d_io_inFromID_rWAddr; // @[IDTop.scala 17:19]
-  wire  d_io_inFromID_rWEn; // @[IDTop.scala 17:19]
-  wire [7:0] d_io_outToEX_iSK; // @[IDTop.scala 17:19]
-  wire [2:0] d_io_outToEX_iK; // @[IDTop.scala 17:19]
-  wire [31:0] d_io_outToEX_source1; // @[IDTop.scala 17:19]
-  wire [31:0] d_io_outToEX_source2; // @[IDTop.scala 17:19]
-  wire [4:0] d_io_outToEX_rWAddr; // @[IDTop.scala 17:19]
-  wire  d_io_outToEX_rWEn; // @[IDTop.scala 17:19]
-  wire  rf_clock; // @[IDTop.scala 18:20]
-  wire  rf_io_inFromID_r1REn; // @[IDTop.scala 18:20]
-  wire [4:0] rf_io_inFromID_r1RAddr; // @[IDTop.scala 18:20]
-  wire [4:0] rf_io_inFromID_r2RAddr; // @[IDTop.scala 18:20]
-  wire [31:0] rf_io_outToID_r1RData; // @[IDTop.scala 18:20]
-  wire [31:0] dc_io_inFromD_iRRdDt; // @[IDTop.scala 19:20]
-  wire [31:0] dc_io_inFromRF_r1RData; // @[IDTop.scala 19:20]
-  wire [7:0] dc_io_outToD_iSK; // @[IDTop.scala 19:20]
-  wire [2:0] dc_io_outToD_iK; // @[IDTop.scala 19:20]
-  wire [31:0] dc_io_outToD_source1; // @[IDTop.scala 19:20]
-  wire [31:0] dc_io_outToD_source2; // @[IDTop.scala 19:20]
-  wire [4:0] dc_io_outToD_rWAddr; // @[IDTop.scala 19:20]
-  wire  dc_io_outToD_rWEn; // @[IDTop.scala 19:20]
-  wire  dc_io_outToRF_r1REn; // @[IDTop.scala 19:20]
-  wire  dc_io_outToRF_r2REn; // @[IDTop.scala 19:20]
-  wire [4:0] dc_io_outToRF_r1RAddr; // @[IDTop.scala 19:20]
-  wire [4:0] dc_io_outToRF_r2RAddr; // @[IDTop.scala 19:20]
-  DbtIDEX d ( // @[IDTop.scala 17:19]
+  wire  d_clock; // @[IDTop.scala 15:19]
+  wire  d_reset; // @[IDTop.scala 15:19]
+  wire [7:0] d_io_inFromID_iSK; // @[IDTop.scala 15:19]
+  wire [2:0] d_io_inFromID_iK; // @[IDTop.scala 15:19]
+  wire [31:0] d_io_inFromID_source1; // @[IDTop.scala 15:19]
+  wire [31:0] d_io_inFromID_source2; // @[IDTop.scala 15:19]
+  wire [4:0] d_io_inFromID_rWAddr; // @[IDTop.scala 15:19]
+  wire  d_io_inFromID_rWEn; // @[IDTop.scala 15:19]
+  wire [7:0] d_io_outToEX_iSK; // @[IDTop.scala 15:19]
+  wire [2:0] d_io_outToEX_iK; // @[IDTop.scala 15:19]
+  wire [31:0] d_io_outToEX_source1; // @[IDTop.scala 15:19]
+  wire [31:0] d_io_outToEX_source2; // @[IDTop.scala 15:19]
+  wire [4:0] d_io_outToEX_rWAddr; // @[IDTop.scala 15:19]
+  wire  d_io_outToEX_rWEn; // @[IDTop.scala 15:19]
+  wire  rf_clock; // @[IDTop.scala 16:20]
+  wire  rf_io_inFromID_r1REn; // @[IDTop.scala 16:20]
+  wire [4:0] rf_io_inFromID_r1RAddr; // @[IDTop.scala 16:20]
+  wire [4:0] rf_io_inFromID_r2RAddr; // @[IDTop.scala 16:20]
+  wire [31:0] rf_io_outToID_r1RData; // @[IDTop.scala 16:20]
+  wire [31:0] dc_io_inFromD_iRRdDt; // @[IDTop.scala 17:20]
+  wire [31:0] dc_io_inFromRF_r1RData; // @[IDTop.scala 17:20]
+  wire [7:0] dc_io_outToD_iSK; // @[IDTop.scala 17:20]
+  wire [2:0] dc_io_outToD_iK; // @[IDTop.scala 17:20]
+  wire [31:0] dc_io_outToD_source1; // @[IDTop.scala 17:20]
+  wire [31:0] dc_io_outToD_source2; // @[IDTop.scala 17:20]
+  wire [4:0] dc_io_outToD_rWAddr; // @[IDTop.scala 17:20]
+  wire  dc_io_outToD_rWEn; // @[IDTop.scala 17:20]
+  wire  dc_io_outToRF_r1REn; // @[IDTop.scala 17:20]
+  wire  dc_io_outToRF_r2REn; // @[IDTop.scala 17:20]
+  wire [4:0] dc_io_outToRF_r1RAddr; // @[IDTop.scala 17:20]
+  wire [4:0] dc_io_outToRF_r2RAddr; // @[IDTop.scala 17:20]
+  DbtIDEX d ( // @[IDTop.scala 15:19]
     .clock(d_clock),
     .reset(d_reset),
     .io_inFromID_iSK(d_io_inFromID_iSK),
@@ -297,14 +297,14 @@ module IDTop(
     .io_outToEX_rWAddr(d_io_outToEX_rWAddr),
     .io_outToEX_rWEn(d_io_outToEX_rWEn)
   );
-  RegFile rf ( // @[IDTop.scala 18:20]
+  RegFile rf ( // @[IDTop.scala 16:20]
     .clock(rf_clock),
     .io_inFromID_r1REn(rf_io_inFromID_r1REn),
     .io_inFromID_r1RAddr(rf_io_inFromID_r1RAddr),
     .io_inFromID_r2RAddr(rf_io_inFromID_r2RAddr),
     .io_outToID_r1RData(rf_io_outToID_r1RData)
   );
-  DC dc ( // @[IDTop.scala 19:20]
+  DC dc ( // @[IDTop.scala 17:20]
     .io_inFromD_iRRdDt(dc_io_inFromD_iRRdDt),
     .io_inFromRF_r1RData(dc_io_inFromRF_r1RData),
     .io_outToD_iSK(dc_io_outToD_iSK),
@@ -318,24 +318,24 @@ module IDTop(
     .io_outToRF_r1RAddr(dc_io_outToRF_r1RAddr),
     .io_outToRF_r2RAddr(dc_io_outToRF_r2RAddr)
   );
-  assign io_outToEX_iSK = d_io_outToEX_iSK; // @[IDTop.scala 26:16]
-  assign io_outToEX_iK = d_io_outToEX_iK; // @[IDTop.scala 26:16]
-  assign io_outToEX_source1 = d_io_outToEX_source1; // @[IDTop.scala 26:16]
-  assign io_outToEX_source2 = d_io_outToEX_source2; // @[IDTop.scala 26:16]
-  assign io_outToEX_rWAddr = d_io_outToEX_rWAddr; // @[IDTop.scala 26:16]
-  assign io_outToEX_rWEn = d_io_outToEX_rWEn; // @[IDTop.scala 26:16]
+  assign io_outToEX_iSK = d_io_outToEX_iSK; // @[IDTop.scala 23:16]
+  assign io_outToEX_iK = d_io_outToEX_iK; // @[IDTop.scala 23:16]
+  assign io_outToEX_source1 = d_io_outToEX_source1; // @[IDTop.scala 23:16]
+  assign io_outToEX_source2 = d_io_outToEX_source2; // @[IDTop.scala 23:16]
+  assign io_outToEX_rWAddr = d_io_outToEX_rWAddr; // @[IDTop.scala 23:16]
+  assign io_outToEX_rWEn = d_io_outToEX_rWEn; // @[IDTop.scala 23:16]
   assign d_clock = clock;
   assign d_reset = reset;
-  assign d_io_inFromID_iSK = dc_io_outToD_iSK; // @[IDTop.scala 25:19]
-  assign d_io_inFromID_iK = dc_io_outToD_iK; // @[IDTop.scala 25:19]
-  assign d_io_inFromID_source1 = dc_io_outToD_source1; // @[IDTop.scala 25:19]
-  assign d_io_inFromID_source2 = dc_io_outToD_source2; // @[IDTop.scala 25:19]
-  assign d_io_inFromID_rWAddr = dc_io_outToD_rWAddr; // @[IDTop.scala 25:19]
-  assign d_io_inFromID_rWEn = dc_io_outToD_rWEn; // @[IDTop.scala 25:19]
+  assign d_io_inFromID_iSK = dc_io_outToD_iSK; // @[IDTop.scala 22:19]
+  assign d_io_inFromID_iK = dc_io_outToD_iK; // @[IDTop.scala 22:19]
+  assign d_io_inFromID_source1 = dc_io_outToD_source1; // @[IDTop.scala 22:19]
+  assign d_io_inFromID_source2 = dc_io_outToD_source2; // @[IDTop.scala 22:19]
+  assign d_io_inFromID_rWAddr = dc_io_outToD_rWAddr; // @[IDTop.scala 22:19]
+  assign d_io_inFromID_rWEn = dc_io_outToD_rWEn; // @[IDTop.scala 22:19]
   assign rf_clock = clock;
-  assign rf_io_inFromID_r1REn = dc_io_outToRF_r1REn; // @[IDTop.scala 24:20]
-  assign rf_io_inFromID_r1RAddr = dc_io_outToRF_r1RAddr; // @[IDTop.scala 24:20]
-  assign rf_io_inFromID_r2RAddr = dc_io_outToRF_r2RAddr; // @[IDTop.scala 24:20]
-  assign dc_io_inFromD_iRRdDt = io_inFromIF_iRRdDt; // @[IDTop.scala 22:19]
-  assign dc_io_inFromRF_r1RData = rf_io_outToID_r1RData; // @[IDTop.scala 23:20]
+  assign rf_io_inFromID_r1REn = dc_io_outToRF_r1REn; // @[IDTop.scala 21:20]
+  assign rf_io_inFromID_r1RAddr = dc_io_outToRF_r1RAddr; // @[IDTop.scala 21:20]
+  assign rf_io_inFromID_r2RAddr = dc_io_outToRF_r2RAddr; // @[IDTop.scala 21:20]
+  assign dc_io_inFromD_iRRdDt = io_inFromIF_iRRdDt; // @[IDTop.scala 19:19]
+  assign dc_io_inFromRF_r1RData = rf_io_outToID_r1RData; // @[IDTop.scala 20:20]
 endmodule

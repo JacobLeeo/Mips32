@@ -24,16 +24,16 @@ circuit IFTop :
     output io : { flip inFromPC : { iREn : UInt<1>, iRRdAd : UInt<8>, iRWrEn : UInt<1>, iRWrDt : UInt<32>}, outToD : { iRRdDt : UInt<32>}}
 
     reg enable : UInt<1>, clock with :
-      reset => (reset, UInt<1>("h0")) @[IR.scala 16:25]
-    smem memBank : UInt<32> [256] @[IR.scala 17:30]
-    io.outToD.iRRdDt <= UInt<1>("h0") @[IR.scala 21:22]
-    enable <= io.inFromPC.iREn @[IR.scala 22:12]
-    when enable : @[IR.scala 24:18]
-      infer mport rdwrPort = memBank[io.inFromPC.iRRdAd], clock @[IR.scala 25:31]
-      when io.inFromPC.iRWrEn : @[IR.scala 26:34]
-        rdwrPort <= io.inFromPC.iRWrDt @[IR.scala 27:22]
+      reset => (reset, UInt<1>("h0")) @[InstROM.scala 16:25]
+    smem memBank : UInt<32> [256] @[InstROM.scala 17:30]
+    io.outToD.iRRdDt <= UInt<1>("h0") @[InstROM.scala 21:22]
+    enable <= io.inFromPC.iREn @[InstROM.scala 22:12]
+    when enable : @[InstROM.scala 24:18]
+      infer mport rdwrPort = memBank[io.inFromPC.iRRdAd], clock @[InstROM.scala 25:31]
+      when io.inFromPC.iRWrEn : @[InstROM.scala 26:34]
+        rdwrPort <= io.inFromPC.iRWrDt @[InstROM.scala 27:22]
       else :
-        io.outToD.iRRdDt <= rdwrPort @[IR.scala 29:30]
+        io.outToD.iRRdDt <= rdwrPort @[InstROM.scala 29:30]
 
   module DBtIFID :
     input clock : Clock
@@ -42,8 +42,8 @@ circuit IFTop :
 
     wire instRomData : UInt<32>
     instRomData <= UInt<32>("h0")
-    instRomData <= io.inFromIF.iRRdDt @[DBtIFID.scala 16:17]
-    io.outToID.iRRdDt <= instRomData @[DBtIFID.scala 17:23]
+    instRomData <= io.inFromIF.iRRdDt @[DBtIFID.scala 17:17]
+    io.outToID.iRRdDt <= instRomData @[DBtIFID.scala 18:23]
 
   module IFTop :
     input clock : Clock

@@ -40,5 +40,5 @@ class EX extends Module {
 }
 
 object EX extends App {
-    (new chisel3.stage.ChiselStage).execute(Array("--target-dir", "generated\\ID"), Seq(ChiselGeneratorAnnotation(() => new EX)))
+    (new chisel3.stage.ChiselStage).execute(Array("--target-dir", "generated\\EX\\EX"), Seq(ChiselGeneratorAnnotation(() => new EX)))
 }

@@ -5,6 +5,6 @@
   },
   {
     "class":"firrtl.transforms.BlackBoxTargetDirAnno",
-    "targetDir":"generated\\ID"
+    "targetDir":"generated\\EX\\D"
   }
 ]

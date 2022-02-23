@@ -49,5 +49,5 @@ class RegFile extends Module {
 }
 
 object RegFile extends App {
-    (new chisel3.stage.ChiselStage).execute(Array("--target-dir", "generated\\ID\\RegFile"), Seq(ChiselGeneratorAnnotation(() => new RegFile)))
+    (new chisel3.stage.ChiselStage).execute(Array("--target-dir", "generated\\ID\\RF"), Seq(ChiselGeneratorAnnotation(() => new RegFile)))
 }

@@ -26,5 +26,5 @@ class DbtIDEX extends Module {
     io.outToEX.rWEn := rWEn
 }
 object DbtIDEX extends App {
-    (new chisel3.stage.ChiselStage).execute(Array("--target-dir", "generated\\ID"), Seq(ChiselGeneratorAnnotation(() => new DbtIDEX)))
+    (new chisel3.stage.ChiselStage).execute(Array("--target-dir", "generated\\ID\\D"), Seq(ChiselGeneratorAnnotation(() => new DbtIDEX)))
 }

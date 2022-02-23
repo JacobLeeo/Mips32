@@ -5,7 +5,7 @@
   },
   {
     "class":"firrtl.transforms.BlackBoxTargetDirAnno",
-    "targetDir":"generated\\ID\\RegFile"
+    "targetDir":"generated\\ID\\RF"
   },
   {
     "class":"firrtl.transforms.CombinationalPath",

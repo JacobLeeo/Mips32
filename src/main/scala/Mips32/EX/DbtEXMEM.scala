@@ -26,5 +26,5 @@ class DbtEXMEM extends Module {
 }
 
 object DbtEXMEM extends App {
-    (new chisel3.stage.ChiselStage).execute(Array("--target-dir", "generated\\ID"), Seq(ChiselGeneratorAnnotation(() => new DbtEXMEM)))
+    (new chisel3.stage.ChiselStage).execute(Array("--target-dir", "generated\\EX\\D"), Seq(ChiselGeneratorAnnotation(() => new DbtEXMEM)))
 }

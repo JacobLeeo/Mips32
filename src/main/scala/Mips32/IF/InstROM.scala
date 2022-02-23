@@ -14,6 +14,7 @@ class InstROM extends Module {
     })
     
     val enable = RegInit(false.B)
+    val iAdRS2 = WireInit(0.U)
     val memBank = SyncReadMem(256, UInt(32.W))
     loadMemoryFromFile(memBank, "mem.txt")
     
@@ -21,8 +22,10 @@ class InstROM extends Module {
     io.outToD.iRRdDt := 0.U
     enable := io.inFromPC.iREn // 将外部输入的使能信号，打一个节拍之后再送给寄存器变量
     
+    iAdRS2 := io.inFromPC.iRRdAd >> 2
+    
     when(enable) {
-        val rdwrPort = memBank(io.inFromPC.iRRdAd) // 获取当前地址的读写端口
+        val rdwrPort = memBank(iAdRS2) // 获取当前地址的读写端口
         when(io.inFromPC.iRWrEn) {
             rdwrPort := io.inFromPC.iRWrDt // 当写信号有效时，将写数据写入指定地址
         }.otherwise {
@@ -32,5 +35,5 @@ class InstROM extends Module {
 }
 
 object InstROM extends App {
-    (new chisel3.stage.ChiselStage).execute(Array("--target-dir", "generated\\IF\\InstROM"), Seq(ChiselGeneratorAnnotation(() => new InstROM)))
+    (new chisel3.stage.ChiselStage).execute(Array("--target-dir", "generated\\IF\\IR"), Seq(ChiselGeneratorAnnotation(() => new InstROM)))
 }

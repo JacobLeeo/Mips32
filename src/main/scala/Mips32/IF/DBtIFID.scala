@@ -19,5 +19,5 @@ class DBtIFID extends Module {
 }
 
 object DBtIFID extends App {
-    (new chisel3.stage.ChiselStage).execute(Array("--target-dir", "generated\\IF"), Seq(ChiselGeneratorAnnotation(() => new DBtIFID)))
+    (new chisel3.stage.ChiselStage).execute(Array("--target-dir", "generated\\IF\\D"), Seq(ChiselGeneratorAnnotation(() => new DBtIFID)))
 }

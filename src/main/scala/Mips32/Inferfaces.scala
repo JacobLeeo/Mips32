@@ -39,13 +39,8 @@ class ID2D extends Bundle {
     val rWEn = Output(Bool()) // 寄存器写使能
 }
 
-class D2EX extends Bundle {
-    val iSK = Output(UInt(8.W)) // 指令类型
-    val iK = Output(UInt(3.W)) // 指令子类型
-    val source1 = Output(UInt(32.W)) // 操作数1
-    val source2 = Output(UInt(32.W)) // 操作数2
-    val rWAddr = Output(UInt(5.W)) // 寄存器写地址
-    val rWEn = Output(Bool()) // 寄存器写使能
+class D2EX extends ID2D {
+
 }
 
 class EX2D extends Bundle {

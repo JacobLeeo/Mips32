@@ -12,7 +12,7 @@
   },
   {
     "class":"firrtl.transforms.BlackBoxTargetDirAnno",
-    "targetDir":"generated\\IF\\InstROM"
+    "targetDir":"generated\\IF\\IR"
   },
   {
     "class":"firrtl.transforms.CombinationalPath",
