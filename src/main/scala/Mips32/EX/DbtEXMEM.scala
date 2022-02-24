@@ -1,6 +1,6 @@
 package Mips32.EX
 
-import Mips32.{D2MEM, EX2D}
+import Mips32._
 import chisel3._
 import chisel3.util._
 import chisel3.stage.ChiselGeneratorAnnotation
@@ -13,7 +13,7 @@ class DbtEXMEM extends Module {
     
     val io = IO(new Bundle() {
         val inFromEX = Flipped(new EX2D)
-        val outToMEM = new D2MEM
+        val outToMEM = new D2EXTop
     })
     
     val rWAddr = RegNext(io.inFromEX.rWAddrO)

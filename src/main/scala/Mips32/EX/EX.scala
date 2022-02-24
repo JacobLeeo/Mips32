@@ -11,10 +11,10 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 class EX extends Module {
     val io = IO(new Bundle() {
-        val inFromD = Flipped(new D2EX)
+        val inFromD = Flipped(new EXTop2EX)
         val outToD = new EX2D
+        val outToEXTop = new EX2EXTop
     })
-
     
     val logicResult = WireInit(0.U(32.W)) // 逻辑结果
     
@@ -22,6 +22,8 @@ class EX extends Module {
     io.outToD.rWEnO := io.inFromD.rWEn // 寄存器写使能
     
     io.outToD.rWDataO := 0.U // 寄存器写数据
+    
+    io.outToEXTop := io.outToD
     
     
      // 根据子类型确定当前运算为逻辑运算中的或运算

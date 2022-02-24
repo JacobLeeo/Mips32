@@ -12,7 +12,7 @@ class DbtMEMWB extends Module {
     
     val io = IO(new Bundle() {
         val inFromMEM = Flipped(new MEM2D)
-        val outToWB = new D2WB
+        val outToWB = new D2MEMTop
     })
     
     val rWAddrO = RegNext(io.inFromMEM.rWAddrO, 0.U) // 执行阶段寄存器写地址输出

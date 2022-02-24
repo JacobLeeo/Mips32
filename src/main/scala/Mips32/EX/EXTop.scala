@@ -7,13 +7,15 @@ import chisel3.stage.ChiselGeneratorAnnotation
 class EXTop extends Module {
     
     val io = IO(new Bundle() {
-        val inFromID = Flipped(new D2EX)
-        val outToMEM = new EX2MEM
+        val inFromID = Flipped(new IDTop2EXTop)
+        val outToMEM = new EXTop2MEMTop
+        val outToID = new EXTop2IDTop
     })
     
     val ex = Module(new EX)
     val d = Module(new DbtEXMEM)
     
+    ex.io.outToEXTop <> io.outToID
     ex.io.inFromD <> io.inFromID
     ex.io.outToD <> d.io.inFromEX
     d.io.outToMEM <> io.outToMEM

@@ -9,17 +9,22 @@ class IDTop extends Module {
     
     val io = IO(new Bundle() {
         val inFromIF = Flipped(new IFTop2IDTop)
-        val inFromWB = Flipped(new WB2RF)
+        val inFromWB = Flipped(new WBTop2IDTop)
+        val inFromEX = Flipped(new EXTop2IDTop)
+        val inFromMEM = Flipped(new MEMTop2IDTop)
     
         val outToTop = new IDTop2Top
-        val outToEX = new ID2EX
+        val outToEX = new IDTop2EXTop
     })
     
     val d = Module(new DbtIDEX)
     val rf = Module(new RegFile)
     val dc = Module(new DC)
     
-    dc.io.inFromD <> io.inFromIF
+    dc.io.inFromIDTop.fromIFTop := io.inFromIF
+    dc.io.inFromIDTop.fromEXTop := io.inFromEX
+    dc.io.inFromIDTop.fromMEMTop := io.inFromMEM
+    
     dc.io.inFromRF <> rf.io.outToID
     rf.io.inFromID <> dc.io.outToRF
     d.io.inFromID <> dc.io.outToD
