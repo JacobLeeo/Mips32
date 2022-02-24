@@ -3,6 +3,13 @@ package Mips32
 import chisel3._
 
 
+/*
+    基础功能模块：PC、IR、DC、RF、EX、MEM、D触发器
+    阶段功能模块：IFTop、IDTop、EXTop、MEMTop、WBTop
+    顶层模块：Top、Out
+ */
+
+ // PC向IR
 class PC2IR extends Bundle {
     val iREn = Output(Bool()) // 使能信号
     val iRRdAd = Output(UInt(8.W)) // 读地址（写地址）
@@ -10,22 +17,25 @@ class PC2IR extends Bundle {
     val iRWrDt = Output(UInt(32.W)) // 写数据
 }
 
+ // IR向D触发器
 class IR2D extends Bundle {
     val iRRdDt = Output(UInt(32.W))
 }
 
-class D2ID extends IR2D {}
+ // TODO 可能需要修改继承关系，D触发器到IFTop的输出，不一定全部来自IR
+class D2IF extends IR2D {}
 
-class IF2ID extends D2ID {}
+// TODO 可能需要修改继承关系，IFTop到IDTop的输出，不一定全部来自IFTop
+class IFTop2IDTop extends D2IF {}
 
-class ID2RF extends Bundle {
+class DC2RF extends Bundle {
     val r1REn = Output(Bool()) // 寄存器1读使能
     val r2REn = Output(Bool()) // 寄存器2读使能
     val r1RAddr = Output(UInt(5.W)) // 寄存器1读地址
     val r2RAddr = Output(UInt(5.W)) // 寄存器2读地址
 }
 
-class RF2ID extends Bundle {
+class RF2DC extends Bundle {
     val r1RData = Output(UInt(32.W)) // 寄存器1读数据
     val r2RData = Output(UInt(32.W)) // 寄存器2读数据
 }

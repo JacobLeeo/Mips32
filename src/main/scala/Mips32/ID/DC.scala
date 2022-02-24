@@ -13,10 +13,10 @@ import org.scalatest.flatspec.AnyFlatSpec
 class DC extends Module {
     
     val io = IO(new Bundle() {
-        val inFromD = Flipped(new D2ID) // 从D触发器输入
-        val inFromRF = Flipped(new RF2ID) // 从RF输入
+        val inFromD = Flipped(new IFTop2IDTop) // 从D触发器输入
+        val inFromRF = Flipped(new RF2DC) // 从RF输入
         val outToD = new ID2D// 向D输出
-        val outToRF = new ID2RF // 向RF输出
+        val outToRF = new DC2RF // 向RF输出
     })
     
     val op = WireInit(0.U(6.W)) // 指令码

@@ -8,7 +8,7 @@ import chisel3.stage.ChiselGeneratorAnnotation
 class IDTop extends Module {
     
     val io = IO(new Bundle() {
-        val inFromIF = Flipped(new D2ID)
+        val inFromIF = Flipped(new IFTop2IDTop)
         val inFromWB = Flipped(new WB2RF)
     
         val outToTop = new IDTop2Top

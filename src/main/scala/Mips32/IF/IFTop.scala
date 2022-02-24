@@ -1,6 +1,5 @@
 package Mips32.IF
 
-
 import Mips32._
 import chisel3._
 import chisel3.stage.ChiselGeneratorAnnotation
@@ -8,14 +7,11 @@ import chiseltest._
 import org.scalatest.flatspec.AnyFlatSpec
 
 
-// TODO 删除各个阶段的Top模块，将所有组件在总Top中进行连接
-// TODO 将各个D触发器单独用类实现
-
 // 实现IF模块与D触发器
 class IFTop extends Module {
     
     val io = IO(new Bundle() {
-        val outToID = new IF2ID
+        val outToID = new IFTop2IDTop
     })
     
     val pc = Module(new PC)
