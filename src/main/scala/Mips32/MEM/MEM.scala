@@ -8,11 +8,13 @@ import chisel3.stage.ChiselGeneratorAnnotation
 class MEM extends Module {
     
     val io = IO(new Bundle() {
-        val inFromD = Flipped(new D2MEM)
+        val inFromD = Flipped(new MEMTop2MEM)
         val outToD = new MEM2D
+        val outToMEMTop = new MEM2MEMTop
     })
     
     io.outToD <> io.inFromD
+    io.outToMEMTop := io.outToD
 }
 
 object MEM extends App {

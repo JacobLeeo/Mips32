@@ -8,7 +8,7 @@ import chisel3.stage.ChiselGeneratorAnnotation
 class DbtIDEX extends Module {
     val io = IO(new Bundle() {
         val inFromID = Flipped(new ID2D)
-        val outToEX = new D2EX
+        val outToEX = new D2IDTop
     })
     
     val iSK = RegNext(io.inFromID.iSK, 0.U)

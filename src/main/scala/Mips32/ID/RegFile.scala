@@ -9,7 +9,7 @@ class RegFile extends Module {
     
     val io = IO(new Bundle() {
         val inFromID = Flipped(new DC2RF) // 从ID输入
-        val inFromWB = Flipped(new WB2RF) // 从WB输入
+        val inFromWB = Flipped(new IDTop2RF) // 从WB输入
         val outToID = new RF2DC // 向ID输出
         val outToIDTop = new RF2IDTop
     })

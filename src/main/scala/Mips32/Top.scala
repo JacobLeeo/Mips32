@@ -31,7 +31,10 @@ class Top extends Module {
     wbTop.io.inFromMEM <> memTop.io.outToWB
     idTop.io.inFromWB <> wbTop.io.outToRF
     
-    io.out.fromIDTop := idTop.io.outToTop
+    exTop.io.outToID <> idTop.io.inFromEX
+    memTop.io.out2IDTop <> idTop.io.inFromMEM
+    
+    io.out.fromIDTop.fromRF := idTop.io.outToTop.fromRF
 }
 
 object Top extends App {
