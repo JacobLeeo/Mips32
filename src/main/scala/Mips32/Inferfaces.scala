@@ -3,12 +3,7 @@ package Mips32
 import chisel3._
 
 
-/*
-    基础功能模块：PC、IR、DC、RF、EX、MEM、D触发器
-    阶段功能模块：IFTop、IDTop、EXTop、MEMTop、WBTop
-    顶层模块：Top、Out
- */
-
+// .1.
 // PC向IR
 class PC2IR extends Bundle {
     val iREn = Output(Bool()) // 使能信号
@@ -30,6 +25,7 @@ class D2IFTop extends IR2D {}
 // IFTop向IDTop
 class IFTop2IDTop extends D2IFTop {}
 
+// .2.
 // IDTop向DC
 class IDTop2DC extends Bundle {
     val fromIFTop = new IFTop2IDTop
@@ -52,7 +48,7 @@ class RF2DC extends Bundle {
 }
 
 // ID向D触发器
-class ID2D extends Bundle {
+class DC2D extends Bundle {
     val iSK = Output(UInt(8.W)) // 指令类型
     val iK = Output(UInt(3.W)) // 指令子类型
     val source1 = Output(UInt(32.W)) // 操作数1
@@ -62,67 +58,10 @@ class ID2D extends Bundle {
 }
 
 // D触发器向IDTop
-class D2IDTop extends ID2D {}
+class D2IDTop extends DC2D {}
 
 // IDTop向EXTop
 class IDTop2EXTop extends D2IDTop {}
-
-// EXTop向EX
-class EXTop2EX extends IDTop2EXTop {}
-
-// EX向D触发器
-class EX2D extends Bundle {
-    val rWAddrO = Output(UInt(5.W)) // 执行阶段寄存器写地址输出
-    val rWEnO = Output(Bool()) // 执行阶段寄存器写使能输出
-    val rWDataO = Output(UInt(32.W)) // 执行阶段寄存器写数据输出
-}
-
-// EX向EXTop
-class EX2EXTop extends EX2D {}
-
-// EXTop向IDTop
-class EXTop2IDTop extends EX2EXTop {}
-
-// D触发器向EXTop
-class D2EXTop extends EX2D {}
-
-// EXTop向MEMTop
-class EXTop2MEMTop extends D2EXTop {}
-
-// MEMTop向MEM
-class MEMTop2MEM extends EXTop2MEMTop {}
-
-// MEM向D触发器
-class MEM2D extends Bundle {
-    val rWAddrO = Output(UInt(5.W)) // 执行阶段寄存器写地址输出
-    val rWEnO = Output(Bool()) // 执行阶段寄存器写使能输出
-    val rWDataO = Output(UInt(32.W)) // 执行阶段寄存器写数据输出
-}
-
-// D触发器向MEMTop
-class D2MEMTop extends MEM2D {}
-
-// MEMTop向WBTop
-class MEMTop2WBTop extends D2MEMTop {}
-
-class MEM2MEMTop extends MEM2D {}
-
-
-class MEMTop2IDTop extends MEM2MEMTop {}
-
-
-// WBTop向WB
-class WBTop2WB extends MEMTop2WBTop {}
-
-// WB向WBTop
-class WB2WBTop extends Bundle {
-    val rWAddrO = Output(UInt(5.W)) // 执行阶段寄存器写地址输出
-    val rWEnO = Output(Bool()) // 执行阶段寄存器写使能输出
-    val rWDataO = Output(UInt(32.W)) // 执行阶段寄存器写数据输出
-}
-
-// WBTop向IDTop
-class WBTop2IDTop extends WB2WBTop {}
 
 // IDTop向RF
 class IDTop2RF extends WBTop2IDTop {}
@@ -167,6 +106,65 @@ class IDTop2Top extends Bundle {
     val fromRF = new RF2IDTop
 }
 
+// .3.
+// EXTop向EX
+class EXTop2EX extends IDTop2EXTop {}
+
+// EX向D触发器
+class EX2D extends Bundle {
+    val rWAddrO = Output(UInt(5.W)) // 执行阶段寄存器写地址输出
+    val rWEnO = Output(Bool()) // 执行阶段寄存器写使能输出
+    val rWDataO = Output(UInt(32.W)) // 执行阶段寄存器写数据输出
+}
+
+// EX向EXTop
+class EX2EXTop extends EX2D {}
+
+// EXTop向IDTop
+class EXTop2IDTop extends EX2EXTop {}
+
+// D触发器向EXTop
+class D2EXTop extends EX2D {}
+
+// EXTop向MEMTop
+class EXTop2MEMTop extends D2EXTop {}
+
+// .4.
+// MEMTop向MEM
+class MEMTop2MEM extends EXTop2MEMTop {}
+
+// MEM向D触发器
+class MEM2D extends Bundle {
+    val rWAddrO = Output(UInt(5.W)) // 执行阶段寄存器写地址输出
+    val rWEnO = Output(Bool()) // 执行阶段寄存器写使能输出
+    val rWDataO = Output(UInt(32.W)) // 执行阶段寄存器写数据输出
+}
+
+// D触发器向MEMTop
+class D2MEMTop extends MEM2D {}
+
+// MEMTop向WBTop
+class MEMTop2WBTop extends D2MEMTop {}
+
+class MEM2MEMTop extends MEM2D {}
+
+class MEMTop2IDTop extends MEM2MEMTop {}
+
+// .5.
+// WBTop向WB
+class WBTop2WB extends MEMTop2WBTop {}
+
+// WB向WBTop
+class WB2WBTop extends Bundle {
+    val rWAddrO = Output(UInt(5.W)) // 执行阶段寄存器写地址输出
+    val rWEnO = Output(Bool()) // 执行阶段寄存器写使能输出
+    val rWDataO = Output(UInt(32.W)) // 执行阶段寄存器写数据输出
+}
+
+// WBTop向IDTop
+class WBTop2IDTop extends WB2WBTop {}
+
+// .6.
 // Top向Out
 class Top2Out extends Bundle {
     val fromIDTop = new IDTop2Top
