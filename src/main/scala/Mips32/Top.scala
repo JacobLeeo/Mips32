@@ -5,12 +5,9 @@ import Mips32.ID._
 import Mips32.IF._
 import Mips32.MEM._
 import Mips32.WB._
+
 import chisel3._
-import chisel3.util._
 import chisel3.stage.ChiselGeneratorAnnotation
-import chiseltest._
-import chiseltest.{ChiselScalatestTester, WriteVcdAnnotation}
-import org.scalatest.flatspec.AnyFlatSpec
 
 
 class Top extends Module {
